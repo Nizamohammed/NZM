@@ -1,0 +1,34 @@
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/inter';
+
+:root {
+  /* Color */
+  --paper:     #F7F3EC;
+  --paper-alt: #EFEAE0;
+  --ink:       #1F1A14;
+  --stone:     #7A7268;
+  --hairline:  #E8E2D8;
+  --ember:     #A0521C;
+  --espresso:  #2A211A;
+
+  /* Type families */
+  --font-serif: 'Fraunces Variable', Newsreader, Georgia, serif;
+  --font-sans:  'Inter Variable', system-ui, -apple-system, sans-serif;
+  --font-mono:  ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Minimal reset */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; }
+img { max-width: 100%; display: block; }
