@@ -1,0 +1,172 @@
+---
+// Reveal-on-scroll footer.
+// Pinned at 100vh height, behind the page wrapper.
+// Mechanism explained in BaseLayout.astro and the step brief.
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+
+    <div class="site-footer__top">
+      <a href="/" class="site-footer__wordmark">nzm</a>
+      <nav class="site-footer__social" aria-label="Social links">
+        <a
+          href="https://github.com/Nizamohammed"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <span aria-hidden="true">·</span>
+        <a
+          href="https://linkedin.com/in/nizam-mohammed"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+        <span aria-hidden="true">·</span>
+        <a
+          href="https://x.com/NizamM0hammed"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Twitter
+        </a>
+      </nav>
+    </div>
+
+    <div class="site-footer__center">
+      <p class="site-footer__cta">
+        If you're building something at this kind of intersection, I'd love to hear about it.
+      </p>
+      <p class="site-footer__status">
+        <span class="site-footer__status-dot" aria-hidden="true"></span>
+        Available for work
+      </p>
+    </div>
+
+    <div class="site-footer__bottom">
+      <span>© 2026 Nizam Mohammed</span>
+      <span>Chicago</span>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    z-index: 1;
+    background: var(--espresso);
+    color: var(--paper);
+    overflow: hidden;
+  }
+
+  .site-footer__inner {
+    max-width: 1080px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-footer__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .site-footer__wordmark {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--paper);
+    text-decoration: none;
+  }
+
+  .site-footer__social {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-family: var(--font-sans);
+    font-size: 12px;
+  }
+
+  .site-footer__social a {
+    color: var(--paper);
+    text-decoration: none;
+    transition: opacity 200ms ease;
+  }
+
+  .site-footer__social a:hover {
+    opacity: 0.7;
+  }
+
+  .site-footer__social span[aria-hidden] {
+    opacity: 0.5;
+  }
+
+  .site-footer__center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .site-footer__cta {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(28px, 4.5vw, 48px);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+    margin: 0;
+    max-width: 24ch;
+  }
+
+  .site-footer__status {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--paper);
+    opacity: 0.85;
+    margin: 32px 0 0 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .site-footer__status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ember);
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 640px) {
+    .site-footer__inner {
+      padding: 24px;
+    }
+    .site-footer__cta {
+      max-width: none;
+    }
+    .site-footer__status {
+      margin-top: 24px;
+    }
+  }
+</style>

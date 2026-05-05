@@ -1,0 +1,135 @@
+---
+// Home-variant header.
+// Internal-page variant comes in a later step.
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <div class="site-header__left">
+      <a href="/" class="site-header__wordmark">nzm</a>
+      <nav class="site-header__menu" aria-label="Primary navigation">
+        <a href="/work">WORK</a>
+        <span aria-hidden="true">·</span>
+        <a href="/writing">WRITING</a>
+      </nav>
+    </div>
+    <div class="site-header__right">
+      <nav class="site-header__social" aria-label="Social links">
+        <a
+          href="https://github.com/Nizamohammed"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <span aria-hidden="true">·</span>
+        <a
+          href="https://linkedin.com/in/nizam-mohammed"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+        <span aria-hidden="true">·</span>
+        <a
+          href="https://x.com/NizamM0hammed"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Twitter
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    width: 100%;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .site-header__inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .site-header__left {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .site-header__wordmark {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .site-header__menu {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .site-header__menu a {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--stone);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .site-header__menu a:hover {
+    color: var(--ember);
+  }
+
+  .site-header__menu span[aria-hidden] {
+    color: var(--stone);
+    font-size: 11px;
+  }
+
+  .site-header__social {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .site-header__social a {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .site-header__social a:hover {
+    color: var(--ember);
+  }
+
+  .site-header__social span[aria-hidden] {
+    color: var(--stone);
+    font-size: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .site-header__inner {
+      padding: 24px;
+    }
+    .site-header__social {
+      gap: 8px;
+    }
+    .site-header__social a {
+      font-size: 11px;
+    }
+  }
+</style>
