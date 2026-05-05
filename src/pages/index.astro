@@ -2,9 +2,25 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout>
-  <main style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px;">
-    <h1 style="font-family: var(--font-serif); font-weight: 400; font-size: clamp(48px, 8vw, 72px); letter-spacing: -0.02em; color: var(--ink); margin: 0;">
-      Nizam Mohammed
-    </h1>
-  </main>
+  <div class="home-placeholder">
+    <h1>Nizam Mohammed</h1>
+  </div>
 </BaseLayout>
+
+<style>
+  .home-placeholder {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px;
+  }
+  .home-placeholder h1 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(48px, 8vw, 72px);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 0;
+  }
+</style>

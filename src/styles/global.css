@@ -21,7 +21,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
-  background: var(--paper);
+  background: var(--espresso);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 17px;
