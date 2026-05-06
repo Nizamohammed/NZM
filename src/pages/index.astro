@@ -1,26 +1,157 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import portrait from '../assets/me-portrait-square.png';
 ---
+
 <BaseLayout>
-  <div class="home-placeholder">
-    <h1>Nizam Mohammed</h1>
-  </div>
+  <section class="home-hero" aria-label="Introduction">
+    <div class="home-hero__inner">
+
+      <h1 class="home-hero__name">
+        <span class="home-hero__name-pair">
+          Nizam
+          <Image
+            src={portrait}
+            alt="Portrait of Nizam Mohammed"
+            class="home-hero__portrait"
+            width={240}
+            height={240}
+          />
+        </span>
+        Mohammed
+      </h1>
+
+      <p class="home-hero__role">ML Researcher &amp; Engineer</p>
+
+      <p class="home-hero__location">Chicago</p>
+
+    </div>
+  </section>
+
+  <section class="home-about" aria-labelledby="home-about-label">
+    <p id="home-about-label" class="home-about__label">About</p>
+    <div class="home-about__body">
+      <p>
+        I build ML systems for sensing, perception, and human experience. My current focus is an independent research project — a world model of musical experience, learned from how people listen rather than from audio features. Earlier work spans real-time computer vision for scooter rider safety and human gait analysis at a robotics lab.
+      </p>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  .home-placeholder {
-    flex: 1;
+  /* ===== Hero ===== */
+  .home-hero {
+    min-height: calc(100vh - 130px);
     display: flex;
     align-items: center;
-    justify-content: center;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
     padding: 80px 40px;
   }
-  .home-placeholder h1 {
+
+  .home-hero__inner {
+    width: 100%;
+  }
+
+  .home-hero__name {
+    margin: 0 0 32px 0;
     font-family: var(--font-serif);
+    font-size: clamp(56px, 11vw, 140px);
     font-weight: 400;
-    font-size: clamp(48px, 8vw, 72px);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
     color: var(--ink);
+    line-height: 1.02;
+  }
+
+  .home-hero__name-pair {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+  }
+
+  .home-hero__portrait {
+    width: 0.85em !important;
+    height: 0.85em !important;
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .home-hero__role {
+    margin: 0 0 14px 0;
+    font-family: var(--font-sans);
+    font-size: clamp(16px, 1.7vw, 20px);
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .home-hero__location {
     margin: 0;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  /* ===== About ===== */
+  .home-about {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 100px 40px;
+    border-top: 1px solid var(--hairline);
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .home-about__label {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  .home-about__body {
+    max-width: 62ch;
+  }
+
+  .home-about__body p {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: clamp(16px, 1.5vw, 18px);
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 720px) {
+    .home-about {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 80px 24px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .home-hero {
+      padding: 60px 24px;
+      min-height: calc(100vh - 110px);
+    }
+    .home-hero__name {
+      margin-bottom: 24px;
+    }
+    .home-hero__role {
+      margin-bottom: 10px;
+    }
   }
 </style>
