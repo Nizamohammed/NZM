@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Writing — Nizam Mohammed" headerVariant="internal" activeNav="writing">
+  <div class="route-stub">
+    <p class="route-stub__label">Writing</p>
+    <p class="route-stub__note">Writing is coming soon.</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .route-stub {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px;
+    gap: 12px;
+    text-align: center;
+  }
+  .route-stub__label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin: 0;
+  }
+  .route-stub__note {
+    font-family: var(--font-serif);
+    font-size: clamp(20px, 2.4vw, 28px);
+    color: var(--ink);
+    max-width: 32ch;
+    margin: 0;
+    line-height: 1.4;
+  }
+</style>
