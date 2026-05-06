@@ -8,12 +8,16 @@
     "preview": "astro preview"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild", "sharp"]
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.3.0",
     "@fontsource-variable/fraunces": "^5.1.1",
     "@fontsource-variable/inter": "^5.1.0",
-    "astro": "^5.7.0"
+    "astro": "^5.7.0",
+    "sharp": "^0.34.5"
   }
 }
