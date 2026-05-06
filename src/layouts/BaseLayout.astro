@@ -6,8 +6,17 @@ import '../styles/global.css';
 
 interface Props {
   title?: string;
+  /** Which header variant to render. Defaults to 'home'. */
+  headerVariant?: 'home' | 'internal';
+  /** For internal variant: which nav item is active. */
+  activeNav?: 'work' | 'writing';
 }
-const { title = 'Nizam Mohammed' } = Astro.props;
+
+const {
+  title = 'Nizam Mohammed',
+  headerVariant = 'home',
+  activeNav,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -20,7 +29,7 @@ const { title = 'Nizam Mohammed' } = Astro.props;
   </head>
   <body>
     <div class="page-wrapper">
-      <Header />
+      <Header variant={headerVariant} active={activeNav} />
       <main class="page-main">
         <slot />
       </main>
@@ -30,19 +39,15 @@ const { title = 'Nizam Mohammed' } = Astro.props;
 </html>
 
 <style is:global>
-  /* Layered layout: page-wrapper sits above the fixed footer */
   .page-wrapper {
     position: relative;
     z-index: 2;
     background: var(--paper);
     min-height: 100vh;
-    /* Scroll runway — gives the user space to scroll past the wrapper's
-       content so the fixed footer is gradually revealed underneath */
     margin-bottom: 100vh;
     display: flex;
     flex-direction: column;
   }
-
   .page-main {
     flex: 1;
     display: flex;
