@@ -2,12 +2,33 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import portrait from '../assets/me-portrait-square.png';
+
+// Featured projects shown on the home page. The full project list lives on /work.
+const featured = [
+  {
+    slug: 'qualia',
+    title: 'Qualia',
+    meta: 'In Progress · 2026 · Independent research',
+    featured: true,
+  },
+  {
+    slug: 'limeade',
+    title: 'Limeade',
+    meta: 'Completed · Feb 2026',
+    featured: false,
+  },
+  {
+    slug: 'human-gait-analysis',
+    title: 'Human Gait Analysis',
+    meta: 'Completed · Dec 2022 – Feb 2023',
+    featured: false,
+  },
+];
 ---
 
 <BaseLayout>
   <section class="home-hero" aria-label="Introduction">
     <div class="home-hero__inner">
-
       <h1 class="home-hero__name">
         <span class="home-hero__name-pair">
           Nizam
@@ -23,9 +44,7 @@ import portrait from '../assets/me-portrait-square.png';
       </h1>
 
       <p class="home-hero__role">ML Researcher &amp; Engineer</p>
-
       <p class="home-hero__location">Chicago</p>
-
     </div>
   </section>
 
@@ -37,10 +56,36 @@ import portrait from '../assets/me-portrait-square.png';
       </p>
     </div>
   </section>
+
+  <section class="home-work" aria-labelledby="home-work-label">
+    <p id="home-work-label" class="home-work__label">Selected Work</p>
+
+    <div class="home-work__grid">
+      {featured.map((project) => (
+        <a
+          href="/work"
+          class:list={['work-tile', { 'work-tile--featured': project.featured }]}
+          aria-label={`Open ${project.title} (currently routed to /work)`}
+        >
+          <h3 class="work-tile__title">{project.title}</h3>
+          <p class="work-tile__meta">{project.meta}</p>
+        </a>
+      ))}
+    </div>
+
+    <a href="/work" class="home-work__all-link">All work →</a>
+  </section>
+
+  <section class="home-writing" aria-labelledby="home-writing-label">
+    <p id="home-writing-label" class="home-writing__label">Writing</p>
+    <div class="home-writing__body">
+      <p>Writing is coming soon.</p>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  /* ===== Hero ===== */
+  /* ===== Hero (unchanged from step 4) ===== */
   .home-hero {
     min-height: calc(100vh - 130px);
     display: flex;
@@ -50,11 +95,7 @@ import portrait from '../assets/me-portrait-square.png';
     margin: 0 auto;
     padding: 80px 40px;
   }
-
-  .home-hero__inner {
-    width: 100%;
-  }
-
+  .home-hero__inner { width: 100%; }
   .home-hero__name {
     margin: 0 0 32px 0;
     font-family: var(--font-serif);
@@ -64,13 +105,11 @@ import portrait from '../assets/me-portrait-square.png';
     color: var(--ink);
     line-height: 1.02;
   }
-
   .home-hero__name-pair {
     display: inline-flex;
     align-items: center;
     gap: 0.3em;
   }
-
   .home-hero__portrait {
     width: 0.85em !important;
     height: 0.85em !important;
@@ -79,7 +118,6 @@ import portrait from '../assets/me-portrait-square.png';
     display: inline-block;
     flex-shrink: 0;
   }
-
   .home-hero__role {
     margin: 0 0 14px 0;
     font-family: var(--font-sans);
@@ -87,7 +125,6 @@ import portrait from '../assets/me-portrait-square.png';
     line-height: 1.5;
     color: var(--ink);
   }
-
   .home-hero__location {
     margin: 0;
     font-family: var(--font-sans);
@@ -98,7 +135,7 @@ import portrait from '../assets/me-portrait-square.png';
     color: var(--stone);
   }
 
-  /* ===== About ===== */
+  /* ===== About (unchanged from step 4) ===== */
   .home-about {
     width: 100%;
     max-width: 1080px;
@@ -110,7 +147,6 @@ import portrait from '../assets/me-portrait-square.png';
     gap: 60px;
     align-items: start;
   }
-
   .home-about__label {
     margin: 0;
     font-family: var(--font-sans);
@@ -120,11 +156,7 @@ import portrait from '../assets/me-portrait-square.png';
     text-transform: uppercase;
     color: var(--stone);
   }
-
-  .home-about__body {
-    max-width: 62ch;
-  }
-
+  .home-about__body { max-width: 62ch; }
   .home-about__body p {
     margin: 0;
     font-family: var(--font-sans);
@@ -133,12 +165,146 @@ import portrait from '../assets/me-portrait-square.png';
     color: var(--ink);
   }
 
+  /* ===== Selected Work (new) ===== */
+  .home-work {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 100px 40px;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .home-work__label {
+    margin: 0 0 48px 0;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  .home-work__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .work-tile {
+    background: var(--paper-alt);
+    border-radius: 4px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-decoration: none;
+    color: var(--ink);
+    aspect-ratio: 4 / 3;
+    transition: transform 250ms ease, box-shadow 250ms ease, background 250ms ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .work-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px color-mix(in srgb, var(--ember) 14%, transparent);
+    background: color-mix(in srgb, var(--paper-alt) 88%, var(--ember));
+  }
+
+  .work-tile--featured {
+    grid-column: 1 / -1;
+    aspect-ratio: 21 / 9;
+  }
+
+  .work-tile__title {
+    margin: 0 0 8px 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(28px, 3vw, 40px);
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+
+  .work-tile--featured .work-tile__title {
+    font-size: clamp(40px, 5vw, 64px);
+  }
+
+  .work-tile__meta {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--stone);
+  }
+
+  .home-work__all-link {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .home-work__all-link:hover {
+    color: var(--ember);
+  }
+
+  /* ===== Writing teaser (new) ===== */
+  .home-writing {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 100px 40px;
+    border-top: 1px solid var(--hairline);
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .home-writing__label {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  .home-writing__body p {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: clamp(16px, 1.5vw, 18px);
+    line-height: 1.6;
+    color: var(--stone);
+  }
+
   /* ===== Responsive ===== */
   @media (max-width: 720px) {
-    .home-about {
+    .home-about,
+    .home-writing {
       grid-template-columns: 1fr;
       gap: 16px;
       padding: 80px 24px;
+    }
+
+    .home-work {
+      padding: 80px 24px;
+    }
+
+    .home-work__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .work-tile,
+    .work-tile--featured {
+      aspect-ratio: 4 / 3;
+      grid-column: auto;
     }
   }
 
@@ -152,6 +318,9 @@ import portrait from '../assets/me-portrait-square.png';
     }
     .home-hero__role {
       margin-bottom: 10px;
+    }
+    .work-tile {
+      padding: 28px;
     }
   }
 </style>
