@@ -2,6 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import portrait from '../assets/me-portrait-square.png';
+import heroQualia from '../assets/hero-qualia.png';
+import heroLimeade from '../assets/hero-limeade.png';
+import heroGait from '../assets/hero-gait.png';
 
 // Featured projects shown on the home page. The full project list lives on /work.
 const featured = [
@@ -9,18 +12,24 @@ const featured = [
     slug: 'qualia',
     title: 'Qualia',
     meta: 'In Progress · 2026 · Independent research',
+    image: heroQualia,
+    alt: 'A visualization from the Qualia music-experience modeling project.',
     featured: true,
   },
   {
     slug: 'limeade',
     title: 'Limeade',
     meta: 'Completed · Feb 2026',
+    image: heroLimeade,
+    alt: 'A still from the Limeade scooter safety computer vision pipeline.',
     featured: false,
   },
   {
     slug: 'human-gait-analysis',
     title: 'Human Gait Analysis',
     meta: 'Completed · Dec 2022 – Feb 2023',
+    image: heroGait,
+    alt: 'A motion-sensor visualization from the Human Gait Analysis project.',
     featured: false,
   },
 ];
@@ -67,8 +76,17 @@ const featured = [
           class:list={['work-tile', { 'work-tile--featured': project.featured }]}
           aria-label={`Open ${project.title} (currently routed to /work)`}
         >
-          <h3 class="work-tile__title">{project.title}</h3>
-          <p class="work-tile__meta">{project.meta}</p>
+          <Image
+            src={project.image}
+            alt={project.alt}
+            class="work-tile__image"
+            width={1600}
+            height={900}
+          />
+          <div class="work-tile__overlay">
+            <h3 class="work-tile__title">{project.title}</h3>
+            <p class="work-tile__meta">{project.meta}</p>
+          </div>
         </a>
       ))}
     </div>
@@ -85,7 +103,7 @@ const featured = [
 </BaseLayout>
 
 <style>
-  /* ===== Hero (unchanged from step 4) ===== */
+  /* ===== Hero (unchanged) ===== */
   .home-hero {
     min-height: calc(100vh - 130px);
     display: flex;
@@ -135,7 +153,7 @@ const featured = [
     color: var(--stone);
   }
 
-  /* ===== About (unchanged from step 4) ===== */
+  /* ===== About (unchanged) ===== */
   .home-about {
     width: 100%;
     max-width: 1080px;
@@ -165,7 +183,7 @@ const featured = [
     color: var(--ink);
   }
 
-  /* ===== Selected Work (new) ===== */
+  /* ===== Selected Work (UPDATED — image tiles with overlay) ===== */
   .home-work {
     width: 100%;
     max-width: 1080px;
@@ -191,25 +209,16 @@ const featured = [
     margin-bottom: 32px;
   }
 
+  /* Tile container: holds image (absolute) + overlay (absolute) */
   .work-tile {
-    background: var(--paper-alt);
-    border-radius: 4px;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    text-decoration: none;
-    color: var(--ink);
-    aspect-ratio: 4 / 3;
-    transition: transform 250ms ease, box-shadow 250ms ease, background 250ms ease;
     position: relative;
     overflow: hidden;
-  }
-
-  .work-tile:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 32px color-mix(in srgb, var(--ember) 14%, transparent);
-    background: color-mix(in srgb, var(--paper-alt) 88%, var(--ember));
+    background: var(--paper-alt);
+    border-radius: 4px;
+    aspect-ratio: 4 / 3;
+    display: block;
+    text-decoration: none;
+    transition: transform 300ms ease, box-shadow 300ms ease;
   }
 
   .work-tile--featured {
@@ -217,26 +226,115 @@ const featured = [
     aspect-ratio: 21 / 9;
   }
 
+  .work-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 36px color-mix(in srgb, var(--ember) 16%, transparent);
+  }
+
+  /* The image fills the tile */
+  .work-tile__image {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    transition: transform 400ms ease;
+  }
+
+  .work-tile:hover .work-tile__image {
+    transform: scale(1.03);
+  }
+
+  /* Overlay sits on top of the image; gradient grounds the type */
+  .work-tile__overlay {
+    position: absolute;
+    inset: 0;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--espresso) 60%, transparent) 0%,
+      color-mix(in srgb, var(--espresso) 30%, transparent) 30%,
+      transparent 65%
+    );
+    transition: background 300ms ease;
+  }
+
+  .work-tile:hover .work-tile__overlay {
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--espresso) 78%, transparent) 0%,
+      color-mix(in srgb, var(--espresso) 50%, transparent) 35%,
+      transparent 70%
+    );
+  }
+
   .work-tile__title {
-    margin: 0 0 8px 0;
+    margin: 0;
     font-family: var(--font-serif);
     font-weight: 400;
     font-size: clamp(28px, 3vw, 40px);
     letter-spacing: -0.015em;
     line-height: 1.05;
-    color: var(--ink);
+    color: var(--paper);
   }
 
   .work-tile--featured .work-tile__title {
     font-size: clamp(40px, 5vw, 64px);
   }
 
+  /* Meta is hidden at rest, fades in on hover */
   .work-tile__meta {
-    margin: 0;
+    margin: 10px 0 0 0;
     font-family: var(--font-sans);
     font-size: 13px;
     line-height: 1.4;
-    color: var(--stone);
+    color: var(--paper);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 300ms ease, transform 300ms ease;
+  }
+
+  .work-tile:hover .work-tile__meta {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+
+  /* Touch / no-hover devices: keep meta visible by default, no animation */
+  @media (hover: none) {
+    .work-tile__meta {
+      opacity: 0.9;
+      transform: translateY(0);
+    }
+    .work-tile__overlay {
+      background: linear-gradient(
+        to top,
+        color-mix(in srgb, var(--espresso) 72%, transparent) 0%,
+        color-mix(in srgb, var(--espresso) 42%, transparent) 35%,
+        transparent 70%
+      );
+    }
+    .work-tile:hover .work-tile__image {
+      transform: none;
+    }
+  }
+
+  /* Accessibility: respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .work-tile,
+    .work-tile__image,
+    .work-tile__overlay,
+    .work-tile__meta {
+      transition: none;
+    }
+    .work-tile:hover .work-tile__image {
+      transform: none;
+    }
+    .work-tile:hover {
+      transform: none;
+    }
   }
 
   .home-work__all-link {
@@ -253,7 +351,7 @@ const featured = [
     color: var(--ember);
   }
 
-  /* ===== Writing teaser (new) ===== */
+  /* ===== Writing teaser (unchanged) ===== */
   .home-writing {
     width: 100%;
     max-width: 1080px;
@@ -292,15 +390,12 @@ const featured = [
       gap: 16px;
       padding: 80px 24px;
     }
-
     .home-work {
       padding: 80px 24px;
     }
-
     .home-work__grid {
       grid-template-columns: 1fr;
     }
-
     .work-tile,
     .work-tile--featured {
       aspect-ratio: 4 / 3;
@@ -319,8 +414,8 @@ const featured = [
     .home-hero__role {
       margin-bottom: 10px;
     }
-    .work-tile {
-      padding: 28px;
+    .work-tile__overlay {
+      padding: 24px;
     }
   }
 </style>
