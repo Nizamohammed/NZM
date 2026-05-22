@@ -90,6 +90,7 @@ const stack = ['Python', 'gensim', 'Last.fm API', 'SQLite', 'Parquet (ZSTD)', 'N
           loading="lazy"
           sandbox="allow-scripts allow-same-origin"
         ></iframe>
+        <span class="project__viz-hint" aria-hidden="true">Drag to rotate · Scroll to zoom · Hover a point for details</span>
       </div>
       <p class="project__viz-caption">Experiment A — cross-genre experiential clusters revealed by artist-identity residualization.</p>
     </section>
@@ -276,6 +277,11 @@ const stack = ['Python', 'gensim', 'Last.fm API', 'SQLite', 'Parquet (ZSTD)', 'N
     background: var(--paper-alt);
     padding: 6px 14px;
     border-radius: 100px;
+    transition: background 200ms ease, color 200ms ease;
+  }
+  .project__chip:hover {
+    background: color-mix(in srgb, var(--paper-alt) 80%, var(--ember));
+    color: var(--ink);
   }
 
   /* Visualizer (full-width, intentional exception to two-column rhythm) */
@@ -286,6 +292,7 @@ const stack = ['Python', 'gensim', 'Last.fm API', 'SQLite', 'Parquet (ZSTD)', 'N
     margin-bottom: 24px;
   }
   .project__viz-frame {
+    position: relative;
     width: 100%;
     aspect-ratio: 16 / 10;
     min-height: 480px;
@@ -293,12 +300,43 @@ const stack = ['Python', 'gensim', 'Last.fm API', 'SQLite', 'Parquet (ZSTD)', 'N
     overflow: hidden;
     border: 1px solid var(--hairline);
     background: var(--paper-alt);
+    transition: border-color 250ms ease;
+  }
+  .project__viz-frame:hover {
+    border-color: color-mix(in srgb, var(--ember) 45%, var(--hairline));
   }
   .project__viz-frame iframe {
     width: 100%;
     height: 100%;
     border: 0;
     display: block;
+  }
+  .project__viz-hint {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 2;
+    pointer-events: none;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--paper);
+    background: color-mix(in srgb, var(--espresso) 82%, transparent);
+    padding: 6px 12px;
+    border-radius: 100px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 250ms ease, transform 250ms ease;
+  }
+  .project__viz-frame:hover .project__viz-hint {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (hover: none) {
+    .project__viz-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   .project__viz-caption {
     margin: 16px 0 0 0;
@@ -335,6 +373,13 @@ const stack = ['Python', 'gensim', 'Last.fm API', 'SQLite', 'Parquet (ZSTD)', 'N
     }
     .project__viz-frame {
       min-height: 360px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project__viz-frame,
+    .project__viz-hint {
+      transition: none;
     }
   }
 </style>
