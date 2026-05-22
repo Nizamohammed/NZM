@@ -298,12 +298,14 @@ const stack = ['Python', 'gensim', 'Last.fm API', 'SQLite', 'Parquet (ZSTD)', 'N
     min-height: 480px;
     border-radius: 4px;
     overflow: hidden;
-    border: 1px solid var(--hairline);
+    border: 1.5px solid var(--hairline);
     background: var(--paper-alt);
-    transition: border-color 250ms ease;
+    transition: border-color 280ms ease, box-shadow 280ms ease, transform 280ms ease;
   }
   .project__viz-frame:hover {
-    border-color: color-mix(in srgb, var(--ember) 45%, var(--hairline));
+    border-color: var(--ember);
+    box-shadow: 0 12px 40px color-mix(in srgb, var(--ember) 18%, transparent);
+    transform: translateY(-2px);
   }
   .project__viz-frame iframe {
     width: 100%;
@@ -313,20 +315,22 @@ const stack = ['Python', 'gensim', 'Last.fm API', 'SQLite', 'Parquet (ZSTD)', 'N
   }
   .project__viz-hint {
     position: absolute;
-    bottom: 12px;
-    right: 12px;
+    bottom: 16px;
+    right: 16px;
     z-index: 2;
     pointer-events: none;
     font-family: var(--font-sans);
-    font-size: 11px;
-    letter-spacing: 0.04em;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
     color: var(--paper);
-    background: color-mix(in srgb, var(--espresso) 82%, transparent);
-    padding: 6px 12px;
+    background: color-mix(in srgb, var(--espresso) 88%, transparent);
+    padding: 9px 16px;
     border-radius: 100px;
+    box-shadow: 0 4px 16px color-mix(in srgb, var(--espresso) 30%, transparent);
     opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 250ms ease, transform 250ms ease;
+    transform: translateY(8px);
+    transition: opacity 280ms ease, transform 280ms ease;
   }
   .project__viz-frame:hover .project__viz-hint {
     opacity: 1;
@@ -380,6 +384,9 @@ const stack = ['Python', 'gensim', 'Last.fm API', 'SQLite', 'Parquet (ZSTD)', 'N
     .project__viz-frame,
     .project__viz-hint {
       transition: none;
+    }
+    .project__viz-frame:hover {
+      transform: none;
     }
   }
 </style>

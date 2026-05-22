@@ -7,39 +7,45 @@ import heroGait from '../../assets/hero-gait.png';
 import tileTetris from '../../assets/tile-tetris.png';
 import tileScribepad from '../../assets/tile-scribepad.png';
 
+// Order matters: Qualia first (featured/full-width), then pairs.
 const projects = [
-  { slug: 'qualia', title: 'Qualia', meta: 'In Progress · 2026', image: heroQualia, alt: 'A visualization from the Qualia music-experience modeling project.', status: 'in-progress' },
-  { slug: 'limeade', title: 'Limeade', meta: 'Completed · Feb 2026', image: heroLimeade, alt: 'A still from the Limeade scooter safety computer vision pipeline.', status: 'completed' },
-  { slug: 'human-gait-analysis', title: 'Human Gait Analysis', meta: 'Completed · 2022–2023', image: heroGait, alt: 'A motion-sensor visualization from the Human Gait Analysis project.', status: 'completed' },
-  { slug: 'tetris', title: 'Tetris', meta: 'Completed · Nov 2025', image: tileTetris, alt: 'The Tetris game built in Java.', status: 'completed' },
-  { slug: 'scribepad', title: 'ScribePad', meta: 'Completed · 2025', image: tileScribepad, alt: 'The ScribePad transcription command-line tool.', status: 'completed' },
+  { slug: 'qualia', title: 'Qualia', meta: 'In Progress · 2026 · Independent research', image: heroQualia, alt: 'A visualization from the Qualia music-experience modeling project.', featured: true },
+  { slug: 'limeade', title: 'Limeade', meta: 'Completed · Feb 2026', image: heroLimeade, alt: 'A still from the Limeade scooter safety computer vision pipeline.', featured: false },
+  { slug: 'human-gait-analysis', title: 'Human Gait Analysis', meta: 'Completed · Dec 2022 – Feb 2023', image: heroGait, alt: 'A motion-sensor visualization from the Human Gait Analysis project.', featured: false },
+  { slug: 'tetris', title: 'Tetris', meta: 'Completed · Nov 2025', image: tileTetris, alt: 'The Tetris game built in Java.', featured: false },
+  { slug: 'scribepad', title: 'ScribePad', meta: 'Completed · Nov 2025 – Dec 2025', image: tileScribepad, alt: 'The ScribePad transcription command-line tool.', featured: false },
 ];
 ---
 
 <BaseLayout title="Work — Nizam Mohammed" headerVariant="internal" activeNav="work">
   <section class="work-index">
-    <p class="work-index__label">Work</p>
-    <h1 class="work-index__heading">Selected projects in machine learning research and engineering.</h1>
+
+    <header class="work-index__hero">
+      <h1 class="work-index__title">Work</h1>
+    </header>
 
     <div class="work-index__grid">
       {projects.map((project) => (
-        <a href={`/work/${project.slug}`} class="work-card" aria-label={`Open ${project.title}`}>
-          <div class="work-card__media">
-            <Image
-              src={project.image}
-              alt={project.alt}
-              class="work-card__image"
-              width={1200}
-              height={750}
-            />
-          </div>
-          <div class="work-card__info">
-            <h2 class="work-card__title">{project.title}</h2>
-            <p class="work-card__meta">{project.meta}</p>
+        <a
+          href={`/work/${project.slug}`}
+          class:list={['work-tile', { 'work-tile--featured': project.featured }]}
+          aria-label={`Open ${project.title}`}
+        >
+          <Image
+            src={project.image}
+            alt={project.alt}
+            class="work-tile__image"
+            width={1600}
+            height={1000}
+          />
+          <div class="work-tile__overlay">
+            <h2 class="work-tile__title">{project.title}</h2>
+            <p class="work-tile__meta">{project.meta}</p>
           </div>
         </a>
       ))}
     </div>
+
   </section>
 </BaseLayout>
 
@@ -48,94 +54,151 @@ const projects = [
     width: 100%;
     max-width: 1080px;
     margin: 0 auto;
-    padding: 40px 40px 100px;
+    padding: 40px 40px 120px;
   }
 
-  .work-index__label {
-    margin: 0 0 24px 0;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--stone);
+  /* Hero: large "Work" title occupying generous space */
+  .work-index__hero {
+    min-height: 38vh;
+    display: flex;
+    align-items: center;
   }
 
-  .work-index__heading {
-    margin: 0 0 64px 0;
+  .work-index__title {
+    margin: 0;
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: clamp(28px, 4vw, 48px);
-    letter-spacing: -0.02em;
-    line-height: 1.2;
+    font-size: clamp(64px, 12vw, 150px);
+    letter-spacing: -0.025em;
+    line-height: 1.0;
     color: var(--ink);
-    max-width: 20ch;
   }
 
+  /* Asymmetric grid: 1 full-width feature + pairs below */
   .work-index__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 48px 32px;
+    gap: 28px;
   }
 
-  .work-card {
-    display: block;
-    text-decoration: none;
-    color: var(--ink);
-  }
-
-  .work-card__media {
-    border-radius: 4px;
+  /* Overlay tile — same language as home Selected Work */
+  .work-tile {
+    position: relative;
     overflow: hidden;
     background: var(--paper-alt);
+    border-radius: 4px;
     aspect-ratio: 4 / 3;
+    display: block;
+    text-decoration: none;
+    transition: transform 300ms ease, box-shadow 300ms ease;
   }
 
-  .work-card__image {
+  .work-tile--featured {
+    grid-column: 1 / -1;
+    aspect-ratio: 21 / 9;
+  }
+
+  .work-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 36px color-mix(in srgb, var(--ember) 16%, transparent);
+  }
+
+  .work-tile__image {
+    position: absolute;
+    inset: 0;
     width: 100% !important;
     height: 100% !important;
     object-fit: cover;
-    display: block;
     transition: transform 400ms ease;
   }
 
-  .work-card:hover .work-card__image {
+  .work-tile:hover .work-tile__image {
     transform: scale(1.03);
   }
 
-  .work-card__info {
-    margin-top: 16px;
+  .work-tile__overlay {
+    position: absolute;
+    inset: 0;
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--espresso) 60%, transparent) 0%,
+      color-mix(in srgb, var(--espresso) 30%, transparent) 30%,
+      transparent 65%
+    );
+    transition: background 300ms ease;
   }
 
-  .work-card__title {
-    margin: 0 0 4px 0;
+  .work-tile:hover .work-tile__overlay {
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--espresso) 78%, transparent) 0%,
+      color-mix(in srgb, var(--espresso) 50%, transparent) 35%,
+      transparent 70%
+    );
+  }
+
+  .work-tile__title {
+    margin: 0;
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: clamp(22px, 2.4vw, 30px);
+    font-size: clamp(28px, 3vw, 40px);
     letter-spacing: -0.015em;
-    line-height: 1.1;
-    color: var(--ink);
-    transition: color 200ms ease;
+    line-height: 1.05;
+    color: var(--paper);
   }
 
-  .work-card:hover .work-card__title {
-    color: var(--ember);
+  .work-tile--featured .work-tile__title {
+    font-size: clamp(40px, 5vw, 64px);
   }
 
-  .work-card__meta {
-    margin: 0;
+  .work-tile__meta {
+    margin: 10px 0 0 0;
     font-family: var(--font-sans);
     font-size: 13px;
     line-height: 1.4;
-    color: var(--stone);
+    color: var(--paper);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 300ms ease, transform 300ms ease;
+  }
+
+  .work-tile:hover .work-tile__meta {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+
+  /* Touch devices: meta visible, deeper gradient, no scale */
+  @media (hover: none) {
+    .work-tile__meta {
+      opacity: 0.9;
+      transform: translateY(0);
+    }
+    .work-tile__overlay {
+      background: linear-gradient(
+        to top,
+        color-mix(in srgb, var(--espresso) 72%, transparent) 0%,
+        color-mix(in srgb, var(--espresso) 42%, transparent) 35%,
+        transparent 70%
+      );
+    }
+    .work-tile:hover .work-tile__image {
+      transform: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .work-card__image,
-    .work-card__title {
+    .work-tile,
+    .work-tile__image,
+    .work-tile__overlay,
+    .work-tile__meta {
       transition: none;
     }
-    .work-card:hover .work-card__image {
+    .work-tile:hover .work-tile__image,
+    .work-tile:hover {
       transform: none;
     }
   }
@@ -144,9 +207,20 @@ const projects = [
     .work-index {
       padding: 24px 24px 80px;
     }
+    .work-index__hero {
+      min-height: 28vh;
+    }
     .work-index__grid {
       grid-template-columns: 1fr;
-      gap: 40px;
+      gap: 20px;
+    }
+    .work-tile,
+    .work-tile--featured {
+      aspect-ratio: 4 / 3;
+      grid-column: auto;
+    }
+    .work-tile__overlay {
+      padding: 24px;
     }
   }
 </style>
