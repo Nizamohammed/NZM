@@ -72,9 +72,9 @@ const featured = [
     <div class="home-work__grid">
       {featured.map((project) => (
         <a
-          href="/work"
+          href={`/work/${project.slug}`}
           class:list={['work-tile', { 'work-tile--featured': project.featured }]}
-          aria-label={`Open ${project.title} (currently routed to /work)`}
+          aria-label={`Open ${project.title}`}
         >
           <Image
             src={project.image}

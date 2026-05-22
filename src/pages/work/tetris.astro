@@ -246,6 +246,11 @@ const stack = ['Java', 'OOP', 'Git'];
     background: var(--paper-alt);
     padding: 6px 14px;
     border-radius: 100px;
+    transition: background 200ms ease, color 200ms ease;
+  }
+  .project__chip:hover {
+    background: color-mix(in srgb, var(--paper-alt) 80%, var(--ember));
+    color: var(--ink);
   }
 
   /* Responsive */
