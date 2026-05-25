@@ -1,0 +1,11 @@
+{
+  "name": "Nizam Mohammed",
+  "short_name": "NZM",
+  "icons": [
+    { "src": "/favicon.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#2A211A",
+  "background_color": "#F7F3EC",
+  "display": "browser"
+}

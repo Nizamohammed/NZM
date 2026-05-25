@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Not found — Nizam Mohammed" headerVariant="internal">
+  <section class="notfound">
+    <p class="notfound__code">404</p>
+    <h1 class="notfound__title">Not here.</h1>
+    <a href="/" class="notfound__link">Back home →</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 40px;
+    gap: 16px;
+    min-height: 50vh;
+  }
+  .notfound__code {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+  .notfound__title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(48px, 8vw, 88px);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1.0;
+  }
+  .notfound__link {
+    margin-top: 8px;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+  .notfound__link:hover {
+    color: var(--ember);
+  }
+</style>
