@@ -1,0 +1,139 @@
+---
+// Custom soft-warm-lens cursor.
+// Desktop / hover-capable only. Disabled under prefers-reduced-motion.
+// Mechanism: a fixed circle lerped toward the mouse each rAF frame.
+---
+
+<div id="cursor" class="cursor" aria-hidden="true"></div>
+
+<style>
+  .cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ember);
+    background: color-mix(in srgb, var(--ember) 0%, transparent);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    /* size/fill transitions; position is set directly via JS each frame */
+    transition:
+      width 240ms ease,
+      height 240ms ease,
+      background-color 240ms ease,
+      border-color 240ms ease,
+      opacity 240ms ease;
+    opacity: 0;            /* hidden until first mouse move */
+    will-change: transform;
+    mix-blend-mode: normal;
+  }
+
+  /* Hover state — grows into a soft warm lens */
+  .cursor.is-hovering {
+    width: 60px;
+    height: 60px;
+    background: color-mix(in srgb, var(--ember) 14%, transparent);
+    border-color: color-mix(in srgb, var(--ember) 35%, transparent);
+  }
+
+  /* Visible once we have a position */
+  .cursor.is-active {
+    opacity: 1;
+  }
+
+  /* Never show on touch / no-hover devices */
+  @media (hover: none), (pointer: coarse) {
+    .cursor { display: none !important; }
+  }
+
+  /* Respect reduced motion: disable entirely */
+  @media (prefers-reduced-motion: reduce) {
+    .cursor { display: none !important; }
+  }
+</style>
+
+<script>
+  (function () {
+    // Bail on touch / no-hover or reduced motion — native cursor stays.
+    const noHover = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (noHover || reduceMotion) return;
+
+    const cursor = document.getElementById('cursor');
+    if (!cursor) return;
+
+    // Interactive elements that trigger the lens-grow state.
+    const interactiveSelector = 'a, button, [role="button"], input, textarea, select, summary, .work-tile, .project__viz-frame';
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let curX = mouseX;
+    let curY = mouseY;
+    const ease = 0.18; // lag factor: lower = more lag/weight, higher = snappier
+    let active = false;
+    let rafId = null;
+
+    function onMove(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (!active) {
+        active = true;
+        cursor.classList.add('is-active');
+      }
+    }
+
+    function onOver(e) {
+      const t = e.target;
+      if (t && t.closest && t.closest(interactiveSelector)) {
+        cursor.classList.add('is-hovering');
+      }
+    }
+
+    function onOut(e) {
+      const t = e.target;
+      if (t && t.closest && t.closest(interactiveSelector)) {
+        // Only remove if we're not moving into another interactive element
+        const related = e.relatedTarget;
+        if (!related || !related.closest || !related.closest(interactiveSelector)) {
+          cursor.classList.remove('is-hovering');
+        }
+      }
+    }
+
+    function onLeaveWindow() {
+      cursor.classList.remove('is-active');
+      active = false;
+    }
+    function onEnterWindow() {
+      // re-activate on next move
+    }
+
+    function tick() {
+      curX += (mouseX - curX) * ease;
+      curY += (mouseY - curY) * ease;
+      cursor.style.transform = `translate(${curX}px, ${curY}px) translate(-50%, -50%)`;
+      rafId = requestAnimationFrame(tick);
+    }
+
+    window.addEventListener('mousemove', onMove, { passive: true });
+    document.addEventListener('mouseover', onOver, { passive: true });
+    document.addEventListener('mouseout', onOut, { passive: true });
+    document.addEventListener('mouseleave', onLeaveWindow);
+    document.addEventListener('mouseenter', onEnterWindow);
+
+    tick();
+
+    // Astro View Transitions: clean up and re-init across page swaps.
+    document.addEventListener('astro:before-swap', () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseover', onOver);
+      document.removeEventListener('mouseout', onOut);
+      document.removeEventListener('mouseleave', onLeaveWindow);
+      document.removeEventListener('mouseenter', onEnterWindow);
+    });
+  })();
+</script>

@@ -2,6 +2,7 @@
 import { ViewTransitions } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Cursor from '../components/Cursor.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -66,6 +67,7 @@ const ogImageUrl = new URL('/og-image.png', Astro.site).href;
       </main>
     </div>
     <Footer />
+    <Cursor />
   </body>
 </html>
 
