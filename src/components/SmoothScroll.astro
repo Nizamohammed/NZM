@@ -1,0 +1,58 @@
+---
+// Conservative smooth scroll via Lenis ("B-light").
+// Off under prefers-reduced-motion. Re-inits per navigation with proper
+// teardown so no rAF loops stack across Astro View Transitions.
+---
+
+<style is:global>
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  import Lenis from 'lenis';
+
+  let lenis: any = null;
+  let rafId = 0;
+
+  function initLenis() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (lenis) return;
+
+    lenis = new Lenis({
+      lerp: 0.1,          // weight knob: lower = heavier glide, higher = snappier/lighter
+      smoothWheel: true,
+      wheelMultiplier: 1,
+    });
+
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
+  }
+
+  function destroyLenis() {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = 0;
+    if (lenis) {
+      lenis.destroy();
+      lenis = null;
+    }
+  }
+
+  // Init on first load and after every View Transition; tear down before each swap.
+  document.addEventListener('astro:page-load', initLenis);
+  document.addEventListener('astro:before-swap', destroyLenis);
+</script>
