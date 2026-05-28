@@ -15,7 +15,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #ffffff;
+    background: #FFF4EA;
     pointer-events: none;
     z-index: 9999;
     mix-blend-mode: difference;
@@ -23,7 +23,8 @@
     transition:
       width 220ms cubic-bezier(0.22, 1, 0.36, 1),
       height 220ms cubic-bezier(0.22, 1, 0.36, 1),
-      margin 220ms cubic-bezier(0.22, 1, 0.36, 1);
+      margin 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 150ms ease;
     will-change: transform, width, height;
   }
 
@@ -67,11 +68,18 @@
       const onMove = (e: MouseEvent) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
+        cursor.style.opacity = '1';
       };
 
       const onOver = (e: MouseEvent) => {
         const target = e.target as Element | null;
-        if (target && target.closest && target.closest(hoverSelector)) {
+        if (!target) return;
+        if (target.tagName === 'IFRAME') {
+          cursor.style.opacity = '0';
+          cursor.classList.remove('is-hover');
+          return;
+        }
+        if (target.closest && target.closest(hoverSelector)) {
           cursor.classList.add('is-hover');
         }
       };
