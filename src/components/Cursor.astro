@@ -1,139 +1,100 @@
 ---
-// Custom soft-warm-lens cursor.
-// Desktop / hover-capable only. Disabled under prefers-reduced-motion.
-// Mechanism: a fixed circle lerped toward the mouse each rAF frame.
+// Thermal cursor: solid white circle following the mouse with lerp smoothing,
+// using mix-blend-mode: difference to invert whatever sits beneath it.
+// Disabled on touch, coarse pointer, and prefers-reduced-motion.
+// Survives Astro View Transitions via transition:persist + document-level listeners.
 ---
 
-<div id="cursor" class="cursor" aria-hidden="true"></div>
+<div id="thermal-cursor" transition:persist aria-hidden="true"></div>
 
-<style>
-  .cursor {
+<style is:global>
+  #thermal-cursor {
     position: fixed;
     top: 0;
     left: 0;
-    width: 24px;
-    height: 24px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: 1.5px solid var(--ember);
-    background: color-mix(in srgb, var(--ember) 0%, transparent);
+    background: #ffffff;
     pointer-events: none;
     z-index: 9999;
-    transform: translate(-50%, -50%);
-    /* size/fill transitions; position is set directly via JS each frame */
+    mix-blend-mode: difference;
+    transform: translate(-100px, -100px);
     transition:
-      width 240ms ease,
-      height 240ms ease,
-      background-color 240ms ease,
-      border-color 240ms ease,
-      opacity 240ms ease;
-    opacity: 0;            /* hidden until first mouse move */
-    will-change: transform;
-    mix-blend-mode: normal;
+      width 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      height 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      margin 220ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, width, height;
   }
 
-  /* Hover state — grows into a soft warm lens */
-  .cursor.is-hovering {
-    width: 60px;
-    height: 60px;
-    background: color-mix(in srgb, var(--ember) 14%, transparent);
-    border-color: color-mix(in srgb, var(--ember) 35%, transparent);
+  #thermal-cursor.is-hover {
+    width: 70px;
+    height: 70px;
+    margin: -15px 0 0 -15px;
   }
 
-  /* Visible once we have a position */
-  .cursor.is-active {
-    opacity: 1;
+  html.thermal-cursor-active,
+  html.thermal-cursor-active * {
+    cursor: none !important;
   }
 
-  /* Never show on touch / no-hover devices */
-  @media (hover: none), (pointer: coarse) {
-    .cursor { display: none !important; }
-  }
-
-  /* Respect reduced motion: disable entirely */
-  @media (prefers-reduced-motion: reduce) {
-    .cursor { display: none !important; }
+  @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+    #thermal-cursor { display: none; }
   }
 </style>
 
 <script>
-  (function () {
-    // Bail on touch / no-hover or reduced motion — native cursor stays.
-    const noHover = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (noHover || reduceMotion) return;
+  const cursor = document.getElementById('thermal-cursor');
 
-    const cursor = document.getElementById('cursor');
-    if (!cursor) return;
+  if (cursor) {
+    const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Interactive elements that trigger the lens-grow state.
-    const interactiveSelector = 'a, button, [role="button"], input, textarea, select, summary, .work-tile, .project__viz-frame';
+    if (supportsHover && !reduced) {
+      document.documentElement.classList.add('thermal-cursor-active');
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let curX = mouseX;
-    let curY = mouseY;
-    const ease = 0.18; // lag factor: lower = more lag/weight, higher = snappier
-    let active = false;
-    let rafId = null;
+      const ease = 0.15;
+      const baseSize = 40;
 
-    function onMove(e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      if (!active) {
-        active = true;
-        cursor.classList.add('is-active');
-      }
-    }
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let cursorX = mouseX;
+      let cursorY = mouseY;
 
-    function onOver(e) {
-      const t = e.target;
-      if (t && t.closest && t.closest(interactiveSelector)) {
-        cursor.classList.add('is-hovering');
-      }
-    }
+      const hoverSelector =
+        'a, button, input, textarea, select, [role="button"], .work-tile, .project__viz-frame';
 
-    function onOut(e) {
-      const t = e.target;
-      if (t && t.closest && t.closest(interactiveSelector)) {
-        // Only remove if we're not moving into another interactive element
-        const related = e.relatedTarget;
-        if (!related || !related.closest || !related.closest(interactiveSelector)) {
-          cursor.classList.remove('is-hovering');
+      const onMove = (e: MouseEvent) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      };
+
+      const onOver = (e: MouseEvent) => {
+        const target = e.target as Element | null;
+        if (target && target.closest && target.closest(hoverSelector)) {
+          cursor.classList.add('is-hover');
         }
-      }
+      };
+
+      const onOut = (e: MouseEvent) => {
+        const target = e.target as Element | null;
+        if (target && target.closest && target.closest(hoverSelector)) {
+          cursor.classList.remove('is-hover');
+        }
+      };
+
+      document.addEventListener('mousemove', onMove, { passive: true });
+      document.addEventListener('mouseover', onOver, { passive: true });
+      document.addEventListener('mouseout', onOut, { passive: true });
+
+      const animate = () => {
+        cursorX += (mouseX - cursorX) * ease;
+        cursorY += (mouseY - cursorY) * ease;
+        cursor.style.transform = `translate(${cursorX - baseSize / 2}px, ${cursorY - baseSize / 2}px)`;
+        requestAnimationFrame(animate);
+      };
+
+      requestAnimationFrame(animate);
     }
-
-    function onLeaveWindow() {
-      cursor.classList.remove('is-active');
-      active = false;
-    }
-    function onEnterWindow() {
-      // re-activate on next move
-    }
-
-    function tick() {
-      curX += (mouseX - curX) * ease;
-      curY += (mouseY - curY) * ease;
-      cursor.style.transform = `translate(${curX}px, ${curY}px) translate(-50%, -50%)`;
-      rafId = requestAnimationFrame(tick);
-    }
-
-    window.addEventListener('mousemove', onMove, { passive: true });
-    document.addEventListener('mouseover', onOver, { passive: true });
-    document.addEventListener('mouseout', onOut, { passive: true });
-    document.addEventListener('mouseleave', onLeaveWindow);
-    document.addEventListener('mouseenter', onEnterWindow);
-
-    tick();
-
-    // Astro View Transitions: clean up and re-init across page swaps.
-    document.addEventListener('astro:before-swap', () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      window.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mouseover', onOver);
-      document.removeEventListener('mouseout', onOut);
-      document.removeEventListener('mouseleave', onLeaveWindow);
-      document.removeEventListener('mouseenter', onEnterWindow);
-    });
-  })();
+  }
 </script>

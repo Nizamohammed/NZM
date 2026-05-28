@@ -58,22 +58,3 @@ button:focus-visible,
     scroll-behavior: auto !important;
   }
 }
-
-/* Hide native cursor where the custom cursor is active.
-   Only on hover-capable, non-reduced-motion devices — touch and
-   reduced-motion users keep the native cursor (the custom one is disabled there). */
-@media (hover: hover) and (pointer: fine) {
-  @media (prefers-reduced-motion: no-preference) {
-    html, body {
-      cursor: none;
-    }
-    /* Keep a usable cursor on text fields and explicit pointer targets
-       so interaction affordances aren't lost entirely. */
-    a, button, [role="button"], summary, label {
-      cursor: pointer;
-    }
-    input, textarea, select {
-      cursor: auto;
-    }
-  }
-}
