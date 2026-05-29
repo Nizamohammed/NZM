@@ -1,0 +1,391 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact · Nizam Mohammed"
+  description="Get in touch with Nizam Mohammed."
+  headerVariant="internal"
+>
+  <section class="contact">
+    <div class="contact__section">
+      <p class="contact__label">Get in touch</p>
+      <div class="contact__content">
+        <h1 class="contact__heading">Contact</h1>
+        <p class="contact__intro">If you've got something worth figuring out, I'm interested.</p>
+
+        <form id="contact-form" class="contact__form" novalidate>
+          <!-- Honeypot: clipped off-screen, visible to bots, hidden from humans/AT -->
+          <span class="sr-only">
+            <input
+              type="checkbox"
+              name="botcheck"
+              id="botcheck"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </span>
+
+          <div class="contact__field">
+            <label class="contact__field-label" for="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="contact__input"
+              required
+              autocomplete="name"
+            />
+          </div>
+
+          <div class="contact__field">
+            <label class="contact__field-label" for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="contact__input"
+              required
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="contact__field">
+            <label class="contact__field-label" for="message">What are you working on?</label>
+            <textarea
+              id="message"
+              name="message"
+              class="contact__input contact__textarea"
+              rows="6"
+              required
+            ></textarea>
+          </div>
+
+          <div class="contact__field">
+            <label class="contact__field-label" for="link">
+              Link <span class="contact__optional">(optional)</span>
+            </label>
+            <input
+              type="url"
+              id="link"
+              name="link"
+              class="contact__input"
+              autocomplete="url"
+            />
+          </div>
+
+          <p id="form-status" class="contact__status" role="status" aria-live="polite"></p>
+
+          <button type="submit" id="submit-btn" class="contact__submit">Send message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Screen-reader-only clip (honeypot wrapper) */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .contact {
+    width: 100%;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 60px 40px 100px;
+  }
+
+  /* Two-column section — mirrors the project-page rhythm */
+  .contact__section {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 60px;
+    align-items: start;
+    padding: 60px 0;
+  }
+
+  .contact__label {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  .contact__content {
+    max-width: 560px;
+  }
+
+  .contact__heading {
+    margin: 0 0 16px 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 80px);
+    letter-spacing: -0.025em;
+    line-height: 1.0;
+    color: var(--stone);
+  }
+
+  .contact__intro {
+    margin: 0 0 40px 0;
+    font-family: var(--font-sans);
+    font-size: clamp(17px, 1.6vw, 19px);
+    line-height: 1.65;
+    color: var(--stone);
+  }
+
+  /* Form */
+  .contact__form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .contact__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contact__field-label {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  .contact__optional {
+    font-weight: 400;
+    color: var(--stone);
+  }
+
+  .contact__input {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--paper-alt);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    font-family: var(--font-sans);
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.5;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color 150ms ease;
+    box-sizing: border-box;
+  }
+
+  .contact__input::placeholder {
+    color: var(--stone);
+    opacity: 0.7;
+  }
+
+  .contact__input:focus-visible {
+    outline: 2px solid var(--ember);
+    outline-offset: 2px;
+    border-color: var(--ember);
+  }
+
+  .contact__textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+
+  .contact__status {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--stone);
+    min-height: 1.4em;
+  }
+
+  .contact__submit {
+    align-self: flex-start;
+    background: var(--ember);
+    color: var(--paper);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: filter 180ms ease;
+  }
+
+  .contact__submit:hover {
+    filter: brightness(0.93);
+  }
+
+  .contact__submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Success block */
+  .contact__success-heading {
+    margin: 0 0 12px 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 48px);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .contact__success-body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: clamp(17px, 1.6vw, 19px);
+    line-height: 1.65;
+    color: var(--stone);
+  }
+
+  /* Responsive */
+  @media (max-width: 720px) {
+    .contact__section {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .contact {
+      padding: 40px 24px 80px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact__input,
+    .contact__submit {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    if (!form) return;
+
+    const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+    const statusEl = document.getElementById('form-status') as HTMLParagraphElement;
+
+    form.addEventListener('submit', async (e: SubmitEvent) => {
+      e.preventDefault();
+
+      // Honeypot check — silently succeed without sending
+      const botcheck = form.elements.namedItem('botcheck') as HTMLInputElement;
+      if (botcheck?.checked) {
+        showSuccess(form);
+        return;
+      }
+
+      // Field values
+      const nameInput = form.elements.namedItem('name') as HTMLInputElement;
+      const emailInput = form.elements.namedItem('email') as HTMLInputElement;
+      const messageInput = form.elements.namedItem('message') as HTMLTextAreaElement;
+      const linkInput = form.elements.namedItem('link') as HTMLInputElement;
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const message = messageInput.value.trim();
+      const link = linkInput.value.trim();
+
+      // Basic validation
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!name) {
+        setStatus('Please enter your name.');
+        nameInput.focus();
+        return;
+      }
+      if (!email || !emailPattern.test(email)) {
+        setStatus('Please enter a valid email address.');
+        emailInput.focus();
+        return;
+      }
+      if (!message) {
+        setStatus('Please add a message.');
+        messageInput.focus();
+        return;
+      }
+
+      // Env var guard
+      const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY;
+      if (!accessKey) {
+        console.warn('[contact] PUBLIC_WEB3FORMS_KEY is not set. Add it to .env (local) or Vercel environment variables, then restart / redeploy.');
+        setStatus('Something went wrong. Please try again.');
+        return;
+      }
+
+      // Submitting state
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      setStatus('');
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            access_key: accessKey,
+            name,
+            email,
+            message,
+            link,
+            subject: 'New message from nizam-mohammed.vercel.app',
+            from_name: 'nizam-mohammed.vercel.app',
+            botcheck: '',
+          }),
+        });
+
+        const data = await res.json();
+
+        if (data.success === true) {
+          showSuccess(form);
+        } else {
+          throw new Error(data.message || 'Submission failed');
+        }
+      } catch {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send message';
+        setStatus('Something went wrong. Please try again.');
+      }
+    });
+
+    function setStatus(text: string) {
+      statusEl.textContent = text;
+    }
+
+    function showSuccess(formEl: HTMLFormElement) {
+      const parent = formEl.parentElement!;
+      formEl.remove();
+      statusEl?.remove();
+
+      const block = document.createElement('div');
+      block.innerHTML = `
+        <h2 class="contact__success-heading" tabindex="-1">Message sent.</h2>
+        <p class="contact__success-body">Thanks for reaching out. I’ll reply soon.</p>
+      `;
+      parent.appendChild(block);
+
+      const heading = block.querySelector<HTMLElement>('.contact__success-heading');
+      heading?.focus();
+    }
+  });
+</script>
