@@ -34,6 +34,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               class="contact__input"
               required
               autocomplete="name"
+              maxlength="100"
             />
           </div>
 
@@ -46,7 +47,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               class="contact__input"
               required
               autocomplete="email"
+              maxlength="200"
+              aria-describedby="email-error"
             />
+            <span id="email-error" class="contact__field-error" aria-live="polite"></span>
           </div>
 
           <div class="contact__field">
@@ -57,6 +61,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               class="contact__input contact__textarea"
               rows="6"
               required
+              maxlength="5000"
             ></textarea>
           </div>
 
@@ -70,7 +75,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               name="link"
               class="contact__input"
               autocomplete="url"
+              maxlength="500"
+              aria-describedby="link-error"
+              placeholder="https://"
             />
+            <span id="link-error" class="contact__field-error" aria-live="polite"></span>
           </div>
 
           <p id="form-status" class="contact__status" role="status" aria-live="polite"></p>
@@ -127,20 +136,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .contact__heading {
-    margin: 0 0 16px 0;
+    margin: 0 0 40px 0;
     font-family: var(--font-serif);
     font-weight: 400;
     font-size: clamp(48px, 7vw, 80px);
     letter-spacing: -0.025em;
     line-height: 1.0;
-    color: var(--stone);
-  }
-
-  .contact__intro {
-    margin: 0 0 40px 0;
-    font-family: var(--font-sans);
-    font-size: clamp(17px, 1.6vw, 19px);
-    line-height: 1.65;
     color: var(--stone);
   }
 
@@ -197,9 +198,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border-color: var(--ember);
   }
 
+  /* Error state on the input itself */
+  .contact__input--error {
+    border-color: var(--ember);
+  }
+
   .contact__textarea {
     resize: vertical;
     min-height: 140px;
+  }
+
+  /* Inline per-field error message */
+  .contact__field-error {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--ember);
+    min-height: 1em;
+    line-height: 1.4;
   }
 
   .contact__status {
@@ -281,7 +297,42 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
     const statusEl = document.getElementById('form-status') as HTMLParagraphElement;
+    const emailInput = form.elements.namedItem('email') as HTMLInputElement;
+    const emailError = document.getElementById('email-error') as HTMLSpanElement;
+    const linkInput = form.elements.namedItem('link') as HTMLInputElement;
+    const linkError = document.getElementById('link-error') as HTMLSpanElement;
 
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // ── Inline email validation on blur ──────────────────────────────────────
+    emailInput.addEventListener('blur', () => {
+      const val = emailInput.value.trim();
+      if (val && !emailPattern.test(val)) {
+        setFieldError(emailInput, emailError, 'That doesn\'t look like a valid email address.');
+      } else {
+        clearFieldError(emailInput, emailError);
+      }
+    });
+
+    emailInput.addEventListener('input', () => {
+      clearFieldError(emailInput, emailError);
+    });
+
+    // ── Inline URL validation on blur ─────────────────────────────────────────
+    linkInput.addEventListener('blur', () => {
+      const val = linkInput.value.trim();
+      if (val && !isValidUrl(val)) {
+        setFieldError(linkInput, linkError, 'Please enter a full URL starting with https:// or http://');
+      } else {
+        clearFieldError(linkInput, linkError);
+      }
+    });
+
+    linkInput.addEventListener('input', () => {
+      clearFieldError(linkInput, linkError);
+    });
+
+    // ── Submit ────────────────────────────────────────────────────────────────
     form.addEventListener('submit', async (e: SubmitEvent) => {
       e.preventDefault();
 
@@ -292,32 +343,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         return;
       }
 
-      // Field values
       const nameInput = form.elements.namedItem('name') as HTMLInputElement;
-      const emailInput = form.elements.namedItem('email') as HTMLInputElement;
       const messageInput = form.elements.namedItem('message') as HTMLTextAreaElement;
-      const linkInput = form.elements.namedItem('link') as HTMLInputElement;
 
       const name = nameInput.value.trim();
       const email = emailInput.value.trim();
       const message = messageInput.value.trim();
       const link = linkInput.value.trim();
 
-      // Basic validation
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      // Field validation
       if (!name) {
         setStatus('Please enter your name.');
         nameInput.focus();
         return;
       }
-      if (!email || !emailPattern.test(email)) {
-        setStatus('Please enter a valid email address.');
+      if (!email) {
+        setFieldError(emailInput, emailError, 'Please enter your email address.');
+        emailInput.focus();
+        return;
+      }
+      if (!emailPattern.test(email)) {
+        setFieldError(emailInput, emailError, 'That doesn\'t look like a valid email address.');
         emailInput.focus();
         return;
       }
       if (!message) {
         setStatus('Please add a message.');
         messageInput.focus();
+        return;
+      }
+      // Link scheme restriction — only allow http/https
+      if (link && !isValidUrl(link)) {
+        setFieldError(linkInput, linkError, 'Please enter a full URL starting with https:// or http://');
+        linkInput.focus();
         return;
       }
 
@@ -343,16 +401,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           },
           body: JSON.stringify({
             access_key: accessKey,
-            name,
-            email,
-            message,
-            link,
+            // Values are trimmed; only safe scalar types sent — no HTML injection risk
+            name: name.slice(0, 100),
+            email: email.slice(0, 200),
+            message: message.slice(0, 5000),
+            link: link.slice(0, 500),
             subject: 'New message from nizam-mohammed.vercel.app',
             from_name: 'nizam-mohammed.vercel.app',
             botcheck: '',
           }),
         });
 
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
 
         if (data.success === true) {
@@ -367,6 +427,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       }
     });
 
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    function isValidUrl(val: string): boolean {
+      try {
+        const url = new URL(val);
+        return url.protocol === 'https:' || url.protocol === 'http:';
+      } catch {
+        return false;
+      }
+    }
+
+    function setFieldError(input: HTMLElement, errorEl: HTMLElement, msg: string) {
+      input.classList.add('contact__input--error');
+      errorEl.textContent = msg;
+    }
+
+    function clearFieldError(input: HTMLElement, errorEl: HTMLElement) {
+      input.classList.remove('contact__input--error');
+      errorEl.textContent = '';
+    }
+
     function setStatus(text: string) {
       statusEl.textContent = text;
     }
@@ -377,14 +458,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       statusEl?.remove();
 
       const block = document.createElement('div');
-      block.innerHTML = `
-        <h2 class="contact__success-heading" tabindex="-1">Message sent.</h2>
-        <p class="contact__success-body">Thanks for reaching out. I’ll reply soon.</p>
-      `;
-      parent.appendChild(block);
+      // Hardcoded strings only — no user input reflected here
+      const heading = document.createElement('h2');
+      heading.className = 'contact__success-heading';
+      heading.setAttribute('tabindex', '-1');
+      heading.textContent = 'Message sent.';
 
-      const heading = block.querySelector<HTMLElement>('.contact__success-heading');
-      heading?.focus();
+      const body = document.createElement('p');
+      body.className = 'contact__success-body';
+      body.textContent = "Thanks for reaching out. I'll reply soon.";
+
+      block.appendChild(heading);
+      block.appendChild(body);
+      parent.appendChild(block);
+      heading.focus();
     }
   });
 </script>
