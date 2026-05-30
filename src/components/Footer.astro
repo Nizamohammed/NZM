@@ -15,11 +15,13 @@
       <p class="site-footer__cta">
         If you've got something worth figuring out, I'm interested.
       </p>
-      <a href="/contact" class="btn-primary footer-cta-button">Get in touch</a>
-      <p class="site-footer__status">
-        <span class="site-footer__status-dot" aria-hidden="true"></span>
-        Available for work
-      </p>
+      <div class="footer-cta-row">
+        <a href="/contact" class="btn-primary footer-cta-button">Get in touch</a>
+        <p class="site-footer__status">
+          <span class="site-footer__status-dot" aria-hidden="true"></span>
+          Available for work
+        </p>
+      </div>
     </div>
 
     <div class="site-footer__bottom">
@@ -86,12 +88,17 @@
     max-width: 24ch;
   }
 
+  .footer-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-top: 28px;
+  }
+
   .footer-cta-button {
     display: inline-block;
-    align-self: flex-start;
-    margin-top: 28px;
-    margin-bottom: 32px;
-    background: #7E4115;   /* ember darkened ~20% to sit against espresso bg */
+    flex-shrink: 0;
+    background: #8C4818;   /* ember lightened slightly from #7E4115 */
   }
 
   .site-footer__status {
