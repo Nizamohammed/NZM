@@ -9,6 +9,7 @@
   --stone:     #7A7268;
   --hairline:  #E8E2D8;
   --ember:     #A0521C;
+  --ember-button: #8C4818;
   --espresso:  #2A211A;
 
   /* Type families */
@@ -62,7 +63,7 @@ button:focus-visible,
 /* Shared primary button / CTA link style */
 .btn-primary {
   display: inline-block;
-  background: var(--ember);
+  background: var(--ember-button);
   color: var(--paper);
   font-family: var(--font-sans);
   font-weight: 600;
