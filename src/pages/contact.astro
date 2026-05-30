@@ -84,7 +84,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
           <p id="form-status" class="contact__status" role="status" aria-live="polite"></p>
 
-          <button type="submit" id="submit-btn" class="contact__submit">Send message</button>
+          <button type="submit" id="submit-btn" class="btn-primary">Send message</button>
         </form>
       </div>
     </div>
@@ -226,27 +226,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     min-height: 1.4em;
   }
 
-  .contact__submit {
+  /* align-self keeps the button from stretching full-width in the flex column */
+  .contact__form .btn-primary {
     align-self: flex-start;
-    background: var(--ember);
-    color: var(--paper);
-    font-family: var(--font-sans);
-    font-size: 16px;
-    font-weight: 600;
-    padding: 14px 28px;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    transition: filter 180ms ease;
-  }
-
-  .contact__submit:hover {
-    filter: brightness(0.93);
-  }
-
-  .contact__submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
   }
 
   /* Success block */
