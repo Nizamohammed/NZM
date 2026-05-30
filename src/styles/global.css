@@ -58,3 +58,26 @@ button:focus-visible,
     scroll-behavior: auto !important;
   }
 }
+
+/* Shared primary button / CTA link style */
+.btn-primary {
+  display: inline-block;
+  background: var(--ember);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 17px;
+  padding: 14px 28px;
+  border-radius: 4px;
+  border: none;
+  text-decoration: none;
+  cursor: none;            /* respect thermal cursor */
+  transition: filter 180ms ease;
+}
+.btn-primary:hover {
+  filter: brightness(0.93);
+}
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
