@@ -189,5 +189,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         .catch(() => {});
     }
     document.addEventListener('astro:page-load', initNowPlaying);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNowPlaying);
+    else initNowPlaying();
   </script>
 </BaseLayout>
