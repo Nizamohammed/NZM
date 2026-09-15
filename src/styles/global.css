@@ -1,4 +1,7 @@
-@import '@fontsource-variable/fraunces';
+/* Fraunces MUST include the optical-size axis (opsz) so the large display type
+   gets its high-contrast look, matching the artifact (Fraunces:opsz,wght@9..144).
+   The default import is weight-only and renders flat at display sizes. */
+@import '@fontsource-variable/fraunces/opsz.css';
 @import '@fontsource-variable/inter';
 
 /* =========================================================================
