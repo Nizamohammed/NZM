@@ -176,7 +176,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         .then((d) => {
           if (!d || !d.ok || !d.track) return; // keep the static fallback line
           el.dataset.lfmDone = '1';
-          el.textContent = d.mode === 'top-today' ? 'Most played today ' : 'Recently played ';
+          el.textContent = d.mode === 'now' ? 'Now playing ' : 'Recently played ';
           const b = document.createElement('b');
           b.textContent = d.track;
           el.appendChild(b);
