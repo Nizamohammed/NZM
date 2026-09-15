@@ -10,12 +10,12 @@ interface Props {
   title?: string;
   description?: string;
   headerVariant?: 'home' | 'internal';
-  activeNav?: 'work' | 'writing';
+  activeNav?: 'work' | 'publications' | 'frames' | 'reading';
 }
 
 const {
   title = 'Nizam Mohammed',
-  description = 'Nizam Mohammed — ML researcher and engineer in Chicago, building machine learning systems for sensing, perception, and human experience.',
+  description = 'Nizam Mohammed, ML researcher and engineer in Chicago. I build machine learning systems for sensing, perception, and human experience.',
   headerVariant = 'home',
   activeNav,
 } = Astro.props;
@@ -33,6 +33,8 @@ const ogImageUrl = new URL('/og-image.png', Astro.site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content="noai, noimageai" />
 
     <!-- Favicons -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -63,7 +65,7 @@ const ogImageUrl = new URL('/og-image.png', Astro.site).href;
     <a href="#main-content" class="skip-link">Skip to content</a>
     <div class="page-wrapper">
       <Header variant={headerVariant} active={activeNav} />
-      <main id="main-content" class="page-main">
+      <main id="main-content">
         <slot />
       </main>
     </div>
@@ -74,22 +76,8 @@ const ogImageUrl = new URL('/og-image.png', Astro.site).href;
 </html>
 
 <style is:global>
-  .page-wrapper {
-    position: relative;
-    z-index: 2;
-    background: var(--paper);
-    min-height: 100vh;
-    margin-bottom: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  .page-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Skip link — visible only when focused */
+  /* .page-wrapper / reveal-footer styles come from global.css (converged design system). */
+  /* Skip link, visible only when focused */
   .skip-link {
     position: absolute;
     left: 16px;

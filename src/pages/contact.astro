@@ -112,7 +112,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     padding: 60px 40px 100px;
   }
 
-  /* Two-column section — mirrors the project-page rhythm */
+  /* Two-column section - mirrors the project-page rhythm */
   .contact__section {
     display: grid;
     grid-template-columns: 200px 1fr;
@@ -318,7 +318,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     form.addEventListener('submit', async (e: SubmitEvent) => {
       e.preventDefault();
 
-      // Honeypot check — silently succeed without sending
+      // Honeypot check - silently succeed without sending
       const botcheck = form.elements.namedItem('botcheck') as HTMLInputElement;
       if (botcheck?.checked) {
         showSuccess(form);
@@ -354,7 +354,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         messageInput.focus();
         return;
       }
-      // Link scheme restriction — only allow http/https
+      // Link scheme restriction - only allow http/https
       if (link && !isValidUrl(link)) {
         setFieldError(linkInput, linkError, 'Please enter a full URL starting with https:// or http://');
         linkInput.focus();
@@ -383,7 +383,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           },
           body: JSON.stringify({
             access_key: accessKey,
-            // Values are trimmed; only safe scalar types sent — no HTML injection risk
+            // Values are trimmed; only safe scalar types sent - no HTML injection risk
             name: name.slice(0, 100),
             email: email.slice(0, 200),
             message: message.slice(0, 5000),
@@ -440,7 +440,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       statusEl?.remove();
 
       const block = document.createElement('div');
-      // Hardcoded strings only — no user input reflected here
+      // Hardcoded strings only - no user input reflected here
       const heading = document.createElement('h2');
       heading.className = 'contact__success-heading';
       heading.setAttribute('tabindex', '-1');

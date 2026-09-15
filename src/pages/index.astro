@@ -1,421 +1,193 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { Image } from 'astro:assets';
-import portrait from '../assets/me-portrait-square.png';
-import heroQualia from '../assets/hero-qualia.png';
-import heroLimeade from '../assets/hero-limeade.png';
-import heroGait from '../assets/hero-gait.png';
-
-// Featured projects shown on the home page. The full project list lives on /work.
-const featured = [
-  {
-    slug: 'qualia',
-    title: 'Qualia',
-    meta: 'In Progress · 2026 · Independent research',
-    image: heroQualia,
-    alt: 'A visualization from the Qualia music-experience modeling project.',
-    featured: true,
-  },
-  {
-    slug: 'limeade',
-    title: 'Limeade',
-    meta: 'Completed · Feb 2026',
-    image: heroLimeade,
-    alt: 'A still from the Limeade scooter safety computer vision pipeline.',
-    featured: false,
-  },
-  {
-    slug: 'human-gait-analysis',
-    title: 'Human Gait Analysis',
-    meta: 'Completed · Dec 2022 – Feb 2023',
-    image: heroGait,
-    alt: 'A motion-sensor visualization from the Human Gait Analysis project.',
-    featured: false,
-  },
-];
 ---
-
 <BaseLayout>
-  <section class="home-hero" aria-label="Introduction">
-    <div class="home-hero__inner">
-      <h1 class="home-hero__name">
-        <span class="home-hero__name-pair">
-          Nizam
-          <Image
-            src={portrait}
-            alt="Portrait of Nizam Mohammed"
-            class="home-hero__portrait"
-            width={480}
-            height={480}
-          />
-        </span>
-        Mohammed
-      </h1>
+<div class="wrap">
+    <section class="home-hero" aria-label="Introduction">
+      <div>
+        <h1 class="home-hero__name">Nizam<img class="home-hero__portrait" src="/portrait.jpg" alt="Portrait of Nizam Mohammed" width="480" height="480">Mohammed</h1>
+        <p class="home-hero__role">ML Researcher &amp; Engineer</p>
+        <p class="home-hero__loc">Chicago</p>
+      </div>
+    </section>
 
-      <p class="home-hero__role">ML Researcher &amp; Engineer</p>
-      <p class="home-hero__location">Chicago</p>
-    </div>
-  </section>
+    <section class="sec intro" aria-labelledby="about-h">
+      <div class="cols">
+        <div><p class="label" id="about-h">About</p></div>
+        <div class="intro__text">
+          <p class="intro__lead">I build ML systems for sensing, perception, and human experience.</p>
+          <p class="intro__body">My current focus is Qualia, a research project building a world model of musical experience, learned from how people listen rather than from audio features. Its first stage is published, with a conference paper in progress. I also built Voter Check, a public search of the 2026 Special Intensive Revision (SIR) draft electoral roll that volunteers in India use to help removed voters get back on the roll. Earlier work spans real-time computer vision for scooter rider safety and gait analysis at a robotics lab.</p>
+        </div>
+      </div>
+    </section>
 
-  <section class="home-about" aria-labelledby="home-about-label">
-    <p id="home-about-label" class="home-about__label">About</p>
-    <div class="home-about__body">
-      <p>
-        I build ML systems for sensing, perception, and human experience. My current focus is an independent research project, a world model of musical experience, learned from how people listen rather than from audio features. Earlier work spans real-time computer vision for scooter rider safety and human gait analysis at a robotics lab.
-      </p>
-    </div>
-  </section>
+    <section class="sec" aria-labelledby="pubs-h">
+      <div class="cols">
+        <div><p class="label" id="pubs-h">Publications</p></div>
+        <div class="cite-card">
+          <p style="margin:0;max-width:66ch;font-size:15.5px;line-height:1.62;color:#3A342B">Mohammed, N., Rahman, A. B. S., Arachchige, D. D. K. (2026). <span style="font-style:italic">Project Qualia: Recovering Experiential Music Structure from Session Co-occurrence Data.</span> <a href="https://arxiv.org/abs/2609.10862" target="_blank" rel="noopener" style="font-size:.92em;color:var(--ember);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--ember) 35%,transparent)">arXiv:2609.10862</a>.</p>
+        </div>
+      </div>
+    </section>
 
-  <section class="home-work" aria-labelledby="home-work-label">
-    <p id="home-work-label" class="home-work__label">Selected Work</p>
+    <section class="sec worklist" aria-labelledby="work-h">
+      <div class="head">
+        <p class="label" id="work-h">Selected Work</p>
+        <a class="alllink" href="/work">All work, 6 projects</a>
+      </div>
+      <div class="selected"><a class="pfeature" href="/work/qualia" style="--pc:#916F46"><span class="pfeature__media"><span class="pshot"><img src="/project/qualia-card.jpg" alt="Qualia"></span></span><span class="pfeature__text"><span class="pfeature__kicker"><span class="pfeature__n">01</span>Independent research</span><span class="pfeature__title">Qualia</span><span class="pfeature__dek">A world model of musical experience, learned from how people listen rather than from audio features.</span><span class="pfeature__meta"><span class="sdot sdot--prog"></span>In progress<span class="sdiv" aria-hidden="true">·</span>2026 · paper on arXiv</span><span class="pfeature__cue">View project →</span></span></a><a class="pfeature pfeature--flip" href="/work/voter-check" style="--pc:#6F7482"><span class="pfeature__media"><span class="pshot"><img src="/project/voter-card.jpg" alt="Voter Check"></span></span><span class="pfeature__text"><span class="pfeature__kicker"><span class="pfeature__n">02</span>Civic tool</span><span class="pfeature__title">Voter Check</span><span class="pfeature__dek">A public search of Hyderabad's 2026 draft electoral rolls, and the case system volunteers use to help removed voters get back on the roll.</span><span class="pfeature__meta"><span class="sdot sdot--live"></span>Live<span class="sdiv" aria-hidden="true">·</span>2026 · votercheck.me</span><span class="pfeature__cue">View project →</span></span></a></div>
+    </section>
 
-    <div class="home-work__grid">
-      {featured.map((project) => (
-        <a
-          href={`/work/${project.slug}`}
-          class:list={['work-tile', { 'work-tile--featured': project.featured }]}
-          aria-label={`Open ${project.title}`}
-        >
-          <Image
-            src={project.image}
-            alt={project.alt}
-            class="work-tile__image"
-            width={1600}
-            height={900}
-          />
-          <div class="work-tile__overlay">
-            <h3 class="work-tile__title">{project.title}</h3>
-            <p class="work-tile__meta">{project.meta}</p>
+    <section class="sec" aria-labelledby="exp-h">
+      <div class="cols">
+        <div><p class="label" id="exp-h">Experience</p></div>
+        <div class="exp">
+          <div class="exp__group">
+            <p class="exp__group-title">Work</p>
+            <ul class="xplist">
+              <li class="xp">
+                <div class="xp__logo"><img src="/logos/depaul.png" alt=""></div>
+                <div class="xp__body">
+                  <p class="xp__title">Lead Research Assistant</p>
+                  <p class="xp__org">Robotics and Assisted Locomotion (RAL) Lab, DePaul University</p>
+                  <p class="xp__meta">Jun 2022 to May 2023 · 1 yr</p>
+                  <p class="xp__desc">Built embedded sensor prototypes and an automated data pipeline, and trained regression models estimating limb position, direction, and speed for real-time prosthetic locomotion.</p>
+                </div>
+              </li>
+            </ul>
           </div>
-        </a>
-      ))}
-    </div>
+          <div class="exp__group">
+            <p class="exp__group-title">Education</p>
+            <ul class="xplist">
+              <li class="xp">
+                <div class="xp__logo"><img src="/logos/depaul.png" alt=""></div>
+                <div class="xp__body">
+                  <p class="xp__title">B.S. Computer Science</p>
+                  <p class="xp__org">DePaul University</p>
+                  <p class="xp__meta">2022 to 2026</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="exp__group">
+            <p class="exp__group-title">Volunteering</p>
+            <ul class="xplist">
+              <li class="xp xp--multi">
+                <div class="xp__logo"><img src="/logos/yvi.png" alt=""></div>
+                <div class="xp__body">
+                  <p class="xp__org xp__org--head">Young Voice of India (YVI)</p>
+                  <div class="xp__roles">
+                    <div class="xp__role">
+                      <p class="xp__title">ML Engineer</p>
+                      <p class="xp__meta">Jan 2026 to present</p>
+                      <p class="xp__desc">Built Voter Check, a public electoral-roll search and case system; now focused on data analysis and research for the organization.</p>
+                    </div>
+                    <div class="xp__role">
+                      <p class="xp__title">Event Coordinator</p>
+                      <p class="xp__meta">2021 · 1 yr</p>
+                      <p class="xp__desc">Coordinated events for the organization's COVID relief programs.</p>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="xp">
+                <div class="xp__logo"><img src="/logos/above.png" alt=""></div>
+                <div class="xp__body">
+                  <p class="xp__title">Student Volunteer</p>
+                  <p class="xp__org">Above and Beyond Free Food Pantry</p>
+                  <p class="xp__meta">Apr 2026 to Jul 2026 · 4 mos</p>
+                  <p class="xp__desc">Distributed groceries, restocked inventory, and maintained the pantry space.</p>
+                </div>
+              </li>
+              <li class="xp">
+                <div class="xp__logo"><img src="/logos/umma.png" alt=""></div>
+                <div class="xp__body">
+                  <p class="xp__title">Senior News Editor</p>
+                  <p class="xp__org">UMMA Ink</p>
+                  <p class="xp__meta">Sep 2022 to Jun 2025 · 2 yrs 10 mos</p>
+                  <p class="xp__desc">Edited the publication's current events section.</p>
+                </div>
+              </li>
+              <li class="xp">
+                <div class="xp__logo"><img src="/logos/nscs.png" alt=""></div>
+                <div class="xp__body">
+                  <p class="xp__title">Scholarship Chair</p>
+                  <p class="xp__org">National Society of Collegiate Scholars (NSCS), DePaul chapter</p>
+                  <p class="xp__meta">Apr 2022 to Sep 2023 · 1 yr 6 mos</p>
+                  <p class="xp__desc">Helped students find and access scholarships offered by NSCS and its partners.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <a href="/work" class="home-work__all-link">All work →</a>
-  </section>
+    <section class="frames" aria-labelledby="frames-h">
+      <div class="head">
+        <p class="label" id="frames-h">Frames</p>
+        <a class="alllink" href="/frames">All frames</a>
+      </div>
+      <div class="frames__strip">
+        <div class="frames__f a" style="background-image:url('/frames/looking-out.jpg')"><span class="cap">Yellowstone</span></div>
+        <div class="frames__f b" style="background-image:url('/frames/alpine-lake.jpg')"><span class="cap">Lake Haiyaha</span></div>
+        <div class="frames__f c" style="background-image:url('/frames/last-light.jpg')"><span class="cap">the last light</span></div>
+        <div class="frames__f d" style="background-image:url('/frames/sky-city.jpg')"><span class="cap">Chicago</span></div>
+      </div>
+      <p class="frames__cap">A few frames from places I've been. The full set is on the Frames page.</p>
+    </section>
 
-  <section class="home-writing" aria-labelledby="home-writing-label">
-    <p id="home-writing-label" class="home-writing__label">Writing</p>
-    <div class="home-writing__body">
-      <p>Writing is coming soon.</p>
-    </div>
-  </section>
+    <section class="sec" aria-labelledby="now-h">
+      <div class="cols">
+        <div><p class="label" id="now-h">Now</p></div>
+        <div class="now now--open">
+          <p class="now__focus"><span class="dt">Chicago / Sep 2026</span>Preparing the Qualia paper for conference submission, and continuing data analysis and research for YVI.</p>
+          <div class="now__listening">
+            <span class="now__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <span class="now__track">Recently played <b>Love Like Ghosts</b>, Lord Huron<span class="src">from Last.fm</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="reading-h">
+      <div class="cols">
+        <div><p class="label" id="reading-h">Reading</p></div>
+        <div>
+          <div class="readnow readnow--sm">
+            <span class="book" style="--bc:#2C2A1E"><span class="book__spine" aria-hidden="true"></span><span class="book__title">The Pilgrimage</span><span class="book__by">Paulo Coelho</span></span>
+            <div class="readnow__text"><p class="readnow__t">The Pilgrimage</p><p class="readnow__by">Paulo Coelho</p><p class="readnow__note">On my desk now, plus a few reads online.</p><span class="reading__kind">Book</span></div>
+          </div>
+          <p class="reading__more"><a class="alllink" href="/reading">All reading</a></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Live "Now" listening line: replaces the static fallback with the track
+    // played most today (from the same-origin /api/nowplaying function). Last.fm
+    // data is untrusted external input, so it is inserted via textContent only.
+    function initNowPlaying() {
+      const el = document.querySelector('.now__track');
+      if (!el || el.dataset.lfmDone === '1') return;
+      fetch('/api/nowplaying', { headers: { accept: 'application/json' } })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => {
+          if (!d || !d.ok || !d.track) return; // keep the static fallback line
+          el.dataset.lfmDone = '1';
+          el.textContent = d.mode === 'top-today' ? 'Most played today ' : 'Recently played ';
+          const b = document.createElement('b');
+          b.textContent = d.track;
+          el.appendChild(b);
+          if (d.artist) el.appendChild(document.createTextNode(', ' + d.artist));
+          const src = document.createElement('span');
+          src.className = 'src';
+          src.textContent = 'from Last.fm';
+          el.appendChild(src);
+        })
+        .catch(() => {});
+    }
+    document.addEventListener('astro:page-load', initNowPlaying);
+  </script>
 </BaseLayout>
-
-<style>
-  /* ===== Hero (unchanged) ===== */
-  .home-hero {
-    min-height: calc(100vh - 130px);
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 80px 40px;
-  }
-  .home-hero__inner { width: 100%; }
-  .home-hero__name {
-    margin: 0 0 32px 0;
-    font-family: var(--font-serif);
-    font-size: clamp(64px, 12vw, 160px);
-    font-weight: 400;
-    letter-spacing: -0.025em;
-    color: var(--ink);
-    line-height: 1.02;
-  }
-  .home-hero__name-pair {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3em;
-  }
-  .home-hero__portrait {
-    width: 0.85em !important;
-    height: 0.85em !important;
-    border-radius: 50%;
-    object-fit: cover;
-    display: inline-block;
-    flex-shrink: 0;
-  }
-  .home-hero__role {
-    margin: 0 0 14px 0;
-    font-family: var(--font-sans);
-    font-size: clamp(18px, 1.9vw, 23px);
-    line-height: 1.5;
-    color: var(--ink);
-  }
-  .home-hero__location {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.20em;
-    text-transform: uppercase;
-    color: var(--stone);
-  }
-
-  /* ===== About (unchanged) ===== */
-  .home-about {
-    width: 100%;
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 100px 40px;
-    border-top: 1px solid var(--hairline);
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 60px;
-    align-items: start;
-  }
-  .home-about__label {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--stone);
-  }
-  .home-about__body { max-width: 62ch; }
-  .home-about__body p {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-size: clamp(18px, 1.7vw, 20px);
-    line-height: 1.6;
-    color: var(--ink);
-  }
-
-  /* ===== Selected Work (UPDATED — image tiles with overlay) ===== */
-  .home-work {
-    width: 100%;
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 100px 40px;
-    border-top: 1px solid var(--hairline);
-  }
-
-  .home-work__label {
-    margin: 0 0 48px 0;
-    font-family: var(--font-sans);
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--stone);
-  }
-
-  .home-work__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 32px;
-  }
-
-  /* Tile container: holds image (absolute) + overlay (absolute) */
-  .work-tile {
-    position: relative;
-    overflow: hidden;
-    background: var(--paper-alt);
-    border-radius: 4px;
-    aspect-ratio: 4 / 3;
-    display: block;
-    text-decoration: none;
-    transition: transform 300ms ease, box-shadow 300ms ease;
-  }
-
-  .work-tile--featured {
-    grid-column: 1 / -1;
-    aspect-ratio: 21 / 9;
-  }
-
-  .work-tile:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 36px color-mix(in srgb, var(--ember) 16%, transparent);
-  }
-
-  /* The image fills the tile */
-  .work-tile__image {
-    position: absolute;
-    inset: 0;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover;
-    transition: transform 400ms ease;
-  }
-
-  .work-tile:hover .work-tile__image {
-    transform: scale(1.03);
-  }
-
-  /* Overlay sits on top of the image; gradient grounds the type */
-  .work-tile__overlay {
-    position: absolute;
-    inset: 0;
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    background: linear-gradient(
-      to top,
-      color-mix(in srgb, var(--espresso) 60%, transparent) 0%,
-      color-mix(in srgb, var(--espresso) 30%, transparent) 30%,
-      transparent 65%
-    );
-    transition: background 300ms ease;
-  }
-
-  .work-tile:hover .work-tile__overlay {
-    background: linear-gradient(
-      to top,
-      color-mix(in srgb, var(--espresso) 78%, transparent) 0%,
-      color-mix(in srgb, var(--espresso) 50%, transparent) 35%,
-      transparent 70%
-    );
-  }
-
-  .work-tile__title {
-    margin: 0;
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: clamp(32px, 3.4vw, 46px);
-    letter-spacing: -0.015em;
-    line-height: 1.05;
-    color: var(--paper);
-  }
-
-  .work-tile--featured .work-tile__title {
-    font-size: clamp(46px, 5.6vw, 72px);
-  }
-
-  /* Meta is hidden at rest, fades in on hover */
-  .work-tile__meta {
-    margin: 10px 0 0 0;
-    font-family: var(--font-sans);
-    font-size: 15px;
-    line-height: 1.4;
-    color: var(--paper);
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 300ms ease, transform 300ms ease;
-  }
-
-  .work-tile:hover .work-tile__meta {
-    opacity: 0.9;
-    transform: translateY(0);
-  }
-
-  /* Touch / no-hover devices: keep meta visible by default, no animation */
-  @media (hover: none) {
-    .work-tile__meta {
-      opacity: 0.9;
-      transform: translateY(0);
-    }
-    .work-tile__overlay {
-      background: linear-gradient(
-        to top,
-        color-mix(in srgb, var(--espresso) 72%, transparent) 0%,
-        color-mix(in srgb, var(--espresso) 42%, transparent) 35%,
-        transparent 70%
-      );
-    }
-    .work-tile:hover .work-tile__image {
-      transform: none;
-    }
-  }
-
-  /* Accessibility: respect reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .work-tile,
-    .work-tile__image,
-    .work-tile__overlay,
-    .work-tile__meta {
-      transition: none;
-    }
-    .work-tile:hover .work-tile__image {
-      transform: none;
-    }
-    .work-tile:hover {
-      transform: none;
-    }
-  }
-
-  .home-work__all-link {
-    display: inline-block;
-    margin-top: 16px;
-    font-family: var(--font-sans);
-    font-size: 15px;
-    color: var(--ink);
-    text-decoration: none;
-    transition: color 200ms ease;
-  }
-
-  .home-work__all-link:hover {
-    color: var(--ember);
-  }
-
-  /* ===== Writing teaser (unchanged) ===== */
-  .home-writing {
-    width: 100%;
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 100px 40px;
-    border-top: 1px solid var(--hairline);
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 60px;
-    align-items: start;
-  }
-
-  .home-writing__label {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--stone);
-  }
-
-  .home-writing__body p {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-size: clamp(18px, 1.7vw, 20px);
-    line-height: 1.6;
-    color: var(--stone);
-  }
-
-  /* ===== Responsive ===== */
-  @media (max-width: 720px) {
-    .home-about,
-    .home-writing {
-      grid-template-columns: 1fr;
-      gap: 16px;
-      padding: 80px 24px;
-    }
-    .home-work {
-      padding: 80px 24px;
-    }
-    .home-work__grid {
-      grid-template-columns: 1fr;
-    }
-    .work-tile,
-    .work-tile--featured {
-      aspect-ratio: 4 / 3;
-      grid-column: auto;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .home-hero {
-      padding: 60px 24px;
-      min-height: calc(100vh - 110px);
-    }
-    .home-hero__name {
-      margin-bottom: 24px;
-    }
-    .home-hero__role {
-      margin-bottom: 10px;
-    }
-    .work-tile__overlay {
-      padding: 24px;
-    }
-  }
-</style>
