@@ -18,6 +18,7 @@
     background: #FFF4EA;
     pointer-events: none;
     z-index: 9999;
+    opacity: 0;
     mix-blend-mode: difference;
     transform: translate(-100px, -100px);
     transition:
@@ -52,15 +53,22 @@
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (supportsHover && !reduced) {
-      document.documentElement.classList.add('thermal-cursor-active');
+      const applyActive = () => document.documentElement.classList.add('thermal-cursor-active');
+      applyActive();
+      // View Transitions morph <html> from the incoming page and drop runtime
+      // classes; re-add after each swap so the native cursor stays hidden.
+      document.addEventListener('astro:after-swap', applyActive);
 
       const ease = 0.15;
       const baseSize = 40;
 
-      let mouseX = window.innerWidth / 2;
-      let mouseY = window.innerHeight / 2;
-      let cursorX = mouseX;
-      let cursorY = mouseY;
+      // Start offscreen and hidden; reveal (and snap into place) on the first
+      // real pointer move so no dot is painted at the viewport center on load.
+      let mouseX = -100;
+      let mouseY = -100;
+      let cursorX = -100;
+      let cursorY = -100;
+      let visible = false;
 
       const hoverSelector =
         'a, button, input, textarea, select, [role="button"], .work-tile, .project__viz-frame';
@@ -68,6 +76,12 @@
       const onMove = (e: MouseEvent) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
+        if (!visible) {
+          // snap on first move so it appears at the pointer, not flying in from the corner
+          cursorX = mouseX;
+          cursorY = mouseY;
+          visible = true;
+        }
         cursor.style.opacity = '1';
       };
 
