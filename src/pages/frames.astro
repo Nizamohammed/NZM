@@ -27,6 +27,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
   // keydown bound once at module scope; delegates to the current lightbox
   document.addEventListener("keydown",function(e){if(!current||!current.isOpen())return;if(e.key==="Escape")current.close();else if(e.key==="ArrowLeft")current.prev();else if(e.key==="ArrowRight")current.next();});
+  // init on soft View-Transition navigations, AND independently on the initial
+  // load so the lightbox never depends on the ViewTransitions script firing.
   document.addEventListener("astro:page-load",initLightbox);
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initLightbox);else initLightbox();
 })();</script>
 </BaseLayout>
