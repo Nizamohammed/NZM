@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Qualia · Nizam Mohammed" description="Qualia, a study of what representations learned from music listening logs encode, drawn from 1.25 billion Last.fm scrobbles. Conference paper under review at IEEE ICSC 2027." headerVariant="internal" activeNav="work">
+<BaseLayout title="Qualia · Nizam Mohammed" description="Qualia, a research project on what representations learned from music listening logs encode, drawn from 1.25 billion Last.fm scrobbles. Conference paper under review at IEEE ICSC 2027." headerVariant="internal" activeNav="work">
 <article class="project">
   <a href="/work" class="project__back project__back--top">← Work</a>
   <header class="project__hero">
@@ -13,7 +13,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </div>
     <div class="project__hero-heading">
       <h1 class="project__title page-heading-reveal">Qualia</h1>
-      <p class="project__hero-sub">A series of studies on what representations learned from music listening logs encode about how people listen.</p>
+      <p class="project__hero-sub">A research project on what representations learned from music listening logs encode about how people listen.</p>
       <div class="project__hero-actions">
         <a class="project__hero-cta" href="https://arxiv.org/abs/2609.10862" target="_blank" rel="noopener">Read the preliminary version (arXiv)</a>
         <span class="project__hero-id">Under review · IEEE ICSC 2027</span>
@@ -30,7 +30,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   <section class="project__section">
     <p class="project__label">About</p>
     <div class="project__body">
-      <p>Qualia is an ongoing research project on what large-scale music listening behavior reveals about how people listen, studied from listening logs rather than from audio. Its current study, under review at IEEE ICSC 2027, asks what two representations learned from these logs actually encode.</p>
+      <p>Qualia is an ongoing research project on what large-scale listening logs reveal about how people listen, studied from behavior rather than from audio. Its current study, under review at IEEE ICSC 2027, asks what two representations learned from these logs encode.</p>
     </div>
   </section>
 
@@ -42,7 +42,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <h2 class="paper-card__title">What Do Learned Music Listening Representations Encode? Artist Identity and Repeat Consumption in 1.25 Billion Last.fm Scrobbles</h2>
         <p class="paper-card__authors">Nizam Mohammed (independent researcher), with Moses Garuba, Abu B. S. Rahman, and Dimuthu D. K. Arachchige (Hampton University)</p>
         <p class="paper-card__id">Extends the preliminary version, arXiv:2609.10862</p>
-        <p class="paper-card__desc">Using 1.25 billion Last.fm scrobbles newly collected from the complete histories of 9,396 users, it compares two learned representations against interpretable reference signals. A linear probe recovers the artist of 90.27% of held-out tracks, and that artist information survives linear concept erasure, so similarity in the space largely reflects a shared artist. In predicting which track a listener replays, a recurrent encoding of recent plays adds a small, measured gain over established repeat-consumption baselines.</p>
+        <p class="paper-card__desc">Using 1.25 billion Last.fm scrobbles newly collected from the complete histories of 9,396 users, the study compares two learned representations against interpretable reference signals. A linear probe recovers the artist of 90.27% of held-out tracks, and that artist information survives linear concept erasure, so similarity in the space largely reflects a shared artist. In predicting which track a listener replays, a recurrent encoding of recent plays adds a small, measured gain over established repeat-consumption baselines.</p>
         <a class="paper-card__btn" href="https://arxiv.org/abs/2609.10862" target="_blank" rel="noopener">Read the preliminary version (arXiv)</a>
       </div>
     </div>
@@ -51,7 +51,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   <section class="project__section">
     <p class="project__label">What it shows</p>
     <div class="project__body">
-      <p>Trained on listening sessions alone, with no genre labels and no audio, the embedding is organized primarily by artist identity. A linear probe recovers the artist of held-out tracks, and that information is not confined to a few directions: it survives linear concept erasure of 32 or 50 directions. The mean similarity between random tracks (0.2487) comes mostly from a direction shared by all tracks; subtracting the mean embedding brings it near zero, yet the artist is still recoverable after erasure, so a near-zero mean similarity does not mean artist identity has been removed.</p>
+      <p>Trained on listening sessions alone, with no genre labels and no audio, the embedding is organized primarily by artist identity. A linear probe recovers the artist of held-out tracks, and that information is not confined to a few directions: it survives linear concept erasure of 32 or 50 directions. The mean similarity between random tracks (0.2487) comes mostly from a direction shared by all tracks; subtracting the mean embedding brings it near zero, yet the artist is still recoverable after erasure, so a near-zero mean similarity does not imply artist identity has been removed.</p>
       <figure class="chart"><svg class="qc3" viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bar chart of artist-probe accuracy under four operations. Original embedding 90.27 percent. After linear concept erasure removing 32 directions, 89.62 percent. Per-artist centering, 0.378 percent. Probe trained on shuffled labels, 0.031 percent."><style>.qc3 text{font-family:var(--font-sans,"Inter",system-ui,-apple-system,sans-serif);fill:var(--stone,#7A7268);font-size:11px}.qc3 .lab{fill:var(--ink,#1F1A14);opacity:.85}.qc3 .val{font-family:var(--font-mono,ui-monospace,SFMono-Regular,Menlo,monospace);fill:var(--ink,#1F1A14);font-size:12px}.qc3 .keep{fill:var(--ember,#A0521C)}.qc3 .gone{fill:var(--stone,#7A7268);opacity:.6}.qc3 .track{fill:var(--hairline,#E8E2D8);opacity:.4}.qc3 .grid{stroke:var(--hairline,#E8E2D8);stroke-width:1}.qc3 .axis{font-size:10px}</style><line class="grid" x1="16" y1="26" x2="16" y2="214"/><line class="grid" x1="316" y1="26" x2="316" y2="214"/><line class="grid" x1="616" y1="26" x2="616" y2="214"/><line class="grid" x1="16" y1="214" x2="616" y2="214"/><text class="axis" x="16" y="232" text-anchor="middle">0</text><text class="axis" x="316" y="232" text-anchor="middle">50%</text><text class="axis" x="616" y="232" text-anchor="middle">100%</text><text class="lab" x="16" y="34">Original embedding</text><rect class="track" x="16" y="40" width="600" height="18" rx="2"/><rect class="keep" x="16" y="40" width="541.6" height="18" rx="2"/><text class="val" x="704" y="54" text-anchor="end">90.27%</text><text class="lab" x="16" y="84">Linear concept erasure (R-LACE, 32 directions removed)</text><rect class="track" x="16" y="90" width="600" height="18" rx="2"/><rect class="keep" x="16" y="90" width="537.7" height="18" rx="2"/><text class="val" x="704" y="104" text-anchor="end">89.62%</text><text class="lab" x="16" y="134">Per-artist centering (uses each track's artist label)</text><rect class="track" x="16" y="140" width="600" height="18" rx="2"/><rect class="gone" x="16" y="140" width="3" height="18" rx="1"/><text class="val" x="704" y="154" text-anchor="end">0.378%</text><text class="lab" x="16" y="184">Probe trained on shuffled labels (control)</text><rect class="track" x="16" y="190" width="600" height="18" rx="2"/><rect class="gone" x="16" y="190" width="3" height="18" rx="1"/><text class="val" x="704" y="204" text-anchor="end">0.031%</text></svg><figcaption>Artist-probe accuracy under each operation. Linear concept erasure (R-LACE, 32 directions removed), which uses the artist labels only through a linear classifier, barely moves it, from 90.27% to 89.62%. Only per-artist centering, which centers each track on the mean of its artist's other tracks, collapses recovery (0.378%, against 0.171% for always guessing the most common artist). A probe trained on shuffled labels reaches 0.031%.</figcaption></figure>
     </div>
   </section>
@@ -59,7 +59,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   <section class="project__section">
     <p class="project__label">Ongoing work</p>
     <div class="project__body">
-      <p>The current stage of Project Qualia builds a world model of the individual listener. From a listener's logged history, it is designed to predict which track the listener plays next, whether one played before or one new to the listener from the corpus's catalog, and the consequences of that choice: the interval to the following play, the end of the session, and the return of the same track. Its specification is written and part of the data pipeline is built; the model's representation of the listener's changing state is now being designed and tested on simulated listeners whose underlying state is known, before any training on the real corpus.</p>
+      <p>The current stage of Project Qualia sets out to build a world model of the individual listener. From a listener's logged history, it is designed to predict which track the listener plays next, whether one they have played before or one new to them from the corpus's catalog, and the consequences of that choice: the interval to the following play, the end of the session, and the return of the same track. Its specification is written and part of the data pipeline is built; the model's representation of the listener's changing state is now being designed and tested on simulated listeners whose underlying state is known, before any training on the real corpus.</p>
     </div>
   </section>
 
